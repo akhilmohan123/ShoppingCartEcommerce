@@ -31,7 +31,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(fileUpload());
 const store = MongoStore.create({
-  mongoUrl: process.env.DB_URl, // Your MongoDB connection string
+  mongoUrl: process.env.DB_URL, // Your MongoDB connection string
   collectionName: 'sessions'
 });
 app.use(

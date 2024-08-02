@@ -1,10 +1,11 @@
 const{MongoClient}=require("mongodb")
+require("dotenv").config()
 const state={
     db:null,
 };
-const url="mongodb://127.0.0.1:27017";
+
 const dbname="shopping";
-const client=new MongoClient(url);
+const client=new MongoClient(process.env.DB_URL);
 const connect=async(cb)=>{
     try{
         await client.connect();

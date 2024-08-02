@@ -3,7 +3,7 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-
+const MongoStore = require('connect-mongo');
 var userRouter = require("./routes/user");
 var adminRouter = require("./routes/admin");
 var hbs = require("express-handlebars");
@@ -11,6 +11,7 @@ var app = express();
 var fileUpload = require("express-fileupload");
 var db = require("./config/connection");
 var session = require("express-session");
+ require("dotenv").config()
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
@@ -29,12 +30,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(fileUpload());
+const store = MongoStore.create({
+  mongoUrl: process.env.DB_URl, // Your MongoDB connection string
+  collectionName: 'sessions'
+});
 app.use(
   session({
     secret: "Key",
     cookie: { maxAge: 60000 },
     resave: true,
     saveUninitialized: true,
+    store:store
   })
 );
 db.connect((err) => {

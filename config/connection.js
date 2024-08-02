@@ -1,23 +1,46 @@
-const{MongoClient}=require("mongodb")
-require("dotenv").config()
-const state={
-    db:null,
+const { MongoClient } = require("mongodb");
+require("dotenv").config();
+
+const state = {
+  db: null,
 };
 
-const dbname="shopping";
-const client=new MongoClient(process.env.DB_URL);
-const connect=async(cb)=>{
-    try{
-        await client.connect();
-        const db=client.db(dbname);
-        state.db=db;
-        return cb();
-    }catch(err){
-        return cb(err);
-    }
+const url = process.env.DB_URL;
+const client = new MongoClient(url);
+
+const connect = async (cb) => {
+  try {
+    await client.connect();
+    console.log('Connected successfully to MongoDB');
+    const db = client.db('shopping');
+    state.db = db;
+    return cb();
+  } catch (err) {
+    console.error('Failed to connect:', err);
+    return cb(err);
+  }
 };
-const get=()=>state.db;
-module.exports={
-    connect,
-    get,
+
+const get = () => state.db;
+
+const testConnection = async () => {
+  try {
+    const db = client.db('shopping');
+    const collection = db.collection('test');
+    // Perform a simple operation to test connection
+    await collection.findOne({});
+    console.log('Operation successful');
+  } catch (err) {
+    console.error('Failed to perform operation:', err);
+  } finally {
+    await client.close();
+  }
+};
+
+// Uncomment the following line if you want to test the connection directly
+// testConnection();
+
+module.exports = {
+  connect,
+  get,
 };

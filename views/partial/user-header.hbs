@@ -1,0 +1,49 @@
+<head>
+    <!-- Other head elements -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<header>
+  
+    <nav class="navbar navbar-expand-lg navbar-light bg-blue">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01"
+            aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <a class="navbar-brand" href="#">Shopping cart</a>
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Products <span class="sr-only">(current)</span></a>
+                </li>
+                {{#if user}}
+                <li class="nav-item">
+                    <a class="nav-link" href="/view-cart">Cart<span class="badge badge-light"id="cart-count">{{coun}}</span> </a>
+  
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="/order">Orders</a>
+                </li>
+                {{/if}}
+            </ul>
+          <div class="dropdown">
+            {{#if user}}
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+     {{user.Name}}
+  </button>
+  {{else}}
+   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+     Account
+  </button>
+  {{/if}}
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+    {{#if user}}
+    <a class="dropdown-item" href="/logout">logout</a>
+    {{else}}
+
+      <a class="dropdown-item" href="/login">login</a>
+    {{/if}}
+  </div>
+</div>
+        </div>
+    </nav>
+</header>

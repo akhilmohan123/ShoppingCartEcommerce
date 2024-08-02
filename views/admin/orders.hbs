@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>All Orders</title>
+  <!-- Include Bootstrap CSS or other styles here -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <header>
+    <!-- Include your admin header here -->
+  </header>
+  <main class="container mt-4">
+    <h1>All Orders</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Order ID</th>
+          <th scope="col">Date</th>
+          <th scope="col">Address</th>
+          <th scope="col">Pincode</th>
+          <th scope="col">Payment Method</th>
+          <th scope="col">Total Price</th>
+          <th scope="col">Status</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each orders}}
+          <tr>
+            <td>{{this._id}}</td>
+            <td>{{this.Date}}</td>
+            <td>{{this.address}}</td>
+            <td>{{this.pincode}}</td>
+            <td>{{this.paymentmethod}}</td>
+            <td>{{this.totalprice}}</td>
+            <td>{{this.status}}</td>
+            <td>
+              <a href="/admin/orders/{{this._id}}" class="btn btn-info">View Details</a>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </main>
+</body>
+</html>

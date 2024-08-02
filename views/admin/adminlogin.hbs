@@ -1,0 +1,24 @@
+<div class="row>">
+  <div class="col-md-6m-auto">
+    <div class="conatainer mt-5 pl-5">
+      <h2 class="text-center">Login</h2>
+     
+      <form action="/adminlogin"method="post">
+      
+        <p class="error">{{Loginerr}}</p>
+    
+        <div class="form-group">
+          <label>Email address</label>
+          <input type="email" class="form-control" name="Email"placeholder="Enter email">
+          </div>
+           <div class="form-group">
+          <label>Password</label>
+          <input type="password" class="form-control" name="Password"placeholder="Password">
+          </div>
+          <a href="/adminsign">Create new</a>
+          <button type="submit"class="btn btn-primary float-right">Login</button>
+        
+      </form>
+    </div>
+  </div>
+</div>

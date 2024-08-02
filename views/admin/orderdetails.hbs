@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Order Details</title>
+  <!-- Include Bootstrap CSS or other styles here -->
+</head>
+<body>
+  <header>
+    <!-- Include your admin header here -->
+  </header>
+  <main>
+    <h1>Order Details</h1>
+    <div>
+        
+      <p><strong>Order ID:</strong> {{order._id}}</p>
+      <p><strong>Date:</strong> {{order.Date}}</p>
+      <p><strong>Address:</strong> {{order.delivarydetails.address}}</p>
+      <p><strong>Pincode:</strong> {{order.delivarydetails.pincode}}</p>
+        <p><strong>Mobile:</strong> {{order.delivarydetails.mobile}}</p>
+      <p><strong>Payment Method:</strong> {{order.paymentmethod}}</p>
+      <p><strong>Total Price:</strong> {{order.totalprice}}</p>
+      <p><strong>Status:</strong> {{order.status}}</p>
+    </div>
+  </main>
+</body>
+</html>

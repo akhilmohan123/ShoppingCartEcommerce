@@ -1,0 +1,11 @@
+<!-- views/user/product-details.hbs or .ejs -->
+<section>
+  <h1>Product Details</h1>
+  <div>
+    <img src="/product-images/{{product._id}}.jpg" alt="{{product.name}}" style="height:200px;width:200px;">
+    <h2>{{product.Name}}</h2>
+    <p>{{product.Description}}</p>
+    <p>Price: Rs. {{product.Price}}</p>
+  </div>
+  <a href="/order" class="btn btn-primary">Back to Orders</a>
+</section>

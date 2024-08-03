@@ -15,11 +15,7 @@ module.exports={
         return new Promise(async( resolve,reject)=>{
              
              let product= await  db.get().collection('products').find().toArray()
-             if(product){
-                resolve(product)
-             }else{
-                resolve([])
-             }
+             resolve(product)
              
         })
     },

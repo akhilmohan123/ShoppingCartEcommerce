@@ -13,8 +13,14 @@ module.exports={
     }
     ,getAllproduct:()=>{
         return new Promise(async( resolve,reject)=>{
+             
              let product= await  db.get().collection('products').find().toArray()
-             resolve(product)
+             if(product){
+                resolve(product)
+             }else{
+                resolve([])
+             }
+             
         })
     },
     deleteProduct:(proId)=>{

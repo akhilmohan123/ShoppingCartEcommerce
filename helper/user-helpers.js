@@ -288,6 +288,7 @@ module.exports = {
     });
   },
   placeOrder: (order, products, total) => {
+    console.log(total)
     return new Promise((resolve, reject) => {
       let status = order["payment-method"] === "COD" ? "placed" : "pending";
       let cartob = {
@@ -337,7 +338,7 @@ module.exports = {
   },
   generaterazorpar: (orderid, total) => {
     console.log("orderis" + orderid);
-    console.log(total);
+    console.log(total+"kk");
     return new Promise((resolve, reject) => {
       var options = {
         amount: total,

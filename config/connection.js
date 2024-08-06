@@ -23,19 +23,7 @@ const connect = async (cb) => {
 
 const get = () => state.db;
 
-const testConnection = async () => {
-  try {
-    const db = client.db('shopping');
-    const collection = db.collection('test');
-    // Perform a simple operation to test connection
-    await collection.findOne({});
-    console.log('Operation successful');
-  } catch (err) {
-    console.error('Failed to perform operation:', err);
-  } finally {
-    await client.close();
-  }
-};
+
 
 // Uncomment the following line if you want to test the connection directly
 // testConnection();

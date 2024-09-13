@@ -4,4 +4,4 @@ node_modules/*
 
 #secret
 .env
-/public/product-images
+/public/product-images/

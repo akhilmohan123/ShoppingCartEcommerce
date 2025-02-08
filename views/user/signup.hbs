@@ -1,24 +1,57 @@
-<div class="row>">
-  <div class="col-md-6m-auto">
-    <div class="conatainer mt-5 pl-5">
-      <h2 class="text-center">Create new account</h2>
-      <form action="/signup"method="post">
-        <div class="form-group">
-            <label>name</label>
-            <input type="text"class="form-control"name="Name"placeholder="enter name">
+ <div class="container">
+        <div class="signup-container">
+            <h2 class="text-center mb-4">Create New Account</h2>
+            <form action="/signup" method="post">
+                <div class="mb-3">
+                    <label for="name" class="form-label"><i class="fas fa-user form-icon"></i>Name</label>
+                    <input type="text" class="form-control" id="name" name="Name" placeholder="Enter your name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label"><i class="fas fa-envelope form-icon"></i>Email address</label>
+                    <input type="email" class="form-control" id="email" name="Email" placeholder="Enter your email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label"><i class="fas fa-lock form-icon"></i>Password</label>
+                    <input type="password" class="form-control" id="password" name="Password" placeholder="Create a password" required>
+                </div>
+                <div class="mb-3">
+                    <a href="/login" class="text-decoration-none">Already have an account?</a>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+            </form>
         </div>
-        <div class="form-group">
-          <label>Email address</label>
-          <input type="email" class="form-control" name="Email"placeholder="Enter email">
-          </div>
-           <div class="form-group">
-          <label>Password</label>
-          <input type="password" class="form-control" name="Password"placeholder="Password">
-          </div>
-          <a href="/login">already have Account?</a>
-          <button type="submit"class="btn btn-primary float-right">Login</button>
-        
-      </form>
     </div>
-  </div>
-</div>
+    <style>
+        h2,label{
+            color: white;
+        }
+       body {
+            background-color: rgb(3, 9, 18);
+             font-family: Arial, sans-serif;
+        }
+        .signup-container {
+             background-image: url("images/login.jpg");
+            max-width: 450px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .form-control:focus {
+            box-shadow: none;
+            border-color: #80bdff;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        .form-icon {
+            color: #007bff;
+            margin-right: 10px;
+        }
+    </style>

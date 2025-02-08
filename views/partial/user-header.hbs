@@ -17,7 +17,7 @@
                 </li>
                 {{#if user}}
                 <li class="nav-item">
-                    <a class="nav-link" href="/view-cart">Cart<span class="badge badge-light"id="cart-count">{{coun}}</span> </a>
+                    <a class="nav-link" href="/view-cart">Cart<span class="badge text-light"id="cart-count">{{coun}}</span> </a>
   
                 </li>
                 <li class="nav-item">
@@ -35,7 +35,7 @@
      Account
   </button>
   {{/if}}
-  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="#dropdownMenuButton" >
     {{#if user}}
     <a class="dropdown-item" href="/logout">logout</a>
     {{else}}
@@ -47,3 +47,56 @@
         </div>
     </nav>
 </header>
+
+<style>
+   /* Style the dropdown button */
+#dropdownMenuButton {
+    background-color: #007bff; /* Change to your preferred color */
+    color: white; /* Text color */
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+/* Hover effect for dropdown button */
+#dropdownMenuButton:hover {
+    background-color: #0056b3;
+}
+
+/* Style the dropdown menu */
+.dropdown-menu {
+    background-color: #ffffff; /* Light background */
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+    min-width: 180px; /* Adjust width */
+}
+
+/* Style the dropdown items */
+.dropdown-menu .dropdown-item {
+    color: #333; /* Dark text color */
+    padding: 10px 15px;
+    font-size: 16px;
+    transition: background 0.3s ease-in-out;
+}
+
+/* Change background on hover */
+.dropdown-menu .dropdown-item:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Align the dropdown properly */
+.dropdown {
+    position: relative;
+}
+
+/* Position the dropdown menu nicely */
+.dropdown-menu {
+    right: 0;
+    left: auto;
+    margin-top: 10px;
+}
+
+
+    
+</style>

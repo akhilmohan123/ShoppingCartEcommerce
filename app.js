@@ -13,6 +13,9 @@ var db = require("./config/connection");
 var session = require("express-session");
  require("dotenv").config()
 // view engine setup
+app.listen(3000,()=>{
+  console.log("port 3000 is listening!!!!!")
+})
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, 'public')));
 app.set("view engine", "hbs");
@@ -35,15 +38,6 @@ const store = MongoStore.create({
   mongoUrl: process.env.DB_URL, // Your MongoDB connection string
   collectionName: 'sessions'
 });
-app.use(
-  session({
-    secret: "Key",
-    cookie: { maxAge: 60000 },
-    resave: true,
-    saveUninitialized: true,
-    store:store
-  })
-);
 db.connect((err) => {
   if (err) {
     console.log("database connection error" + err);
@@ -51,6 +45,16 @@ db.connect((err) => {
     console.log("database connected");
   }
 });
+app.use(
+  session({
+    secret: "Key",
+    cookie: { maxAge: 6000000 },
+    resave: true,
+    saveUninitialized: true,
+    store:store
+  })
+);
+
 app.use("/", userRouter);
 app.use("/admin", adminRouter);
 

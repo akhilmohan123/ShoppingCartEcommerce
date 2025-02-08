@@ -154,12 +154,19 @@ module.exports = {
   cartCount: (userid) => {
     return new Promise(async (resolve, reject) => {
       let count = 0;
+   
       let cart = await db
         .get()
         .collection("cart")
         .findOne({ user: new objectId(userid) });
-      if (cart) {
-        count = cart.products.length;
+        // console.log(cart.products[0].quantity)
+        console.log(cart.products.length)
+      if (cart.products.length >1) {
+        cart.products.forEach(element => {
+          count+=element.quantity
+        });
+      }else{
+        count=cart.products.length
       }
       resolve(count);
     });
@@ -341,7 +348,7 @@ module.exports = {
     console.log(total+"kk");
     return new Promise((resolve, reject) => {
       var options = {
-        amount: total,
+        amount: total*100,
         currency: "INR",
         receipt: "" + orderid,
       };
@@ -354,7 +361,6 @@ module.exports = {
   verifyPayment: (details) => {
     return new Promise(async (resolve, reject) => {
       const { createHmac } = await import("node:crypto");
-
       const secret = "jS3RtqGOn0JgIVPvQUDswVzv";
       const hash = createHmac("sha256", secret)
         .update(
@@ -370,8 +376,7 @@ module.exports = {
         reject();
       }
     });
-    // Prints:
-    //   c0fa1bc00531bd78ef38c628449c5102aeabd49b5dc3a2a516ea6ea959d6658e
+    
   },
   changepaymentstatus: (orderid) => {
     console.log(orderid);

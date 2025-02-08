@@ -18,10 +18,12 @@ const verifyLogged = (req, res, next) => {
 // GET home page
 router.get("/", async (req, res, next) => {
   try {
+    console.log("path / get called");
     let user = req.session.user;
     let coun = null;
     if (user) {
       coun = await userhelper.cartCount(user._id);
+      console.log("count from main page is "+coun)
     }
     let data = await productHelper.getAllproduct();
     res.render("user/view-products", { data, user, coun });
@@ -91,7 +93,7 @@ router.get("/view-cart", verifyLogged, async (req, res, next) => {
   try {
     let products = await userhelper.getCart(req.session.user._id);
     let total = await userhelper.totalprice(req.session.user._id);
-    
+
     res.render("user/view-cart", {
       products,
       user: req.session.user._id,
@@ -130,7 +132,7 @@ router.get("/place-order", verifyLogged, async (req, res, next) => {
 });
 
 // POST place order
-router.post("/place-order", verifyLogged,async (req, res, next) => {
+router.post("/place-order", verifyLogged, async (req, res, next) => {
   try {
     let products = await userhelper.productlist(req.body.userId);
     let total = await userhelper.totalprice(req.body.userId);
@@ -138,6 +140,7 @@ router.post("/place-order", verifyLogged,async (req, res, next) => {
     if (req.body["payment-method"] === "COD") {
       res.json({ codsuccess: true });
     } else {
+      console.log("total is", total);
       let response = await userhelper.generaterazorpar(orderid, total);
       res.json(response);
     }
@@ -147,7 +150,7 @@ router.post("/place-order", verifyLogged,async (req, res, next) => {
 });
 
 // GET order success
-router.get("/order-success", verifyLogged,(req, res) => {
+router.get("/order-success", verifyLogged, (req, res) => {
   res.render("user/order-success", { user: req.session.user });
 });
 
@@ -155,32 +158,34 @@ router.get("/order-success", verifyLogged,(req, res) => {
 router.get("/order", verifyLogged, async (req, res, next) => {
   try {
     let orders = await userhelper.vieworders(req.session.user._id);
-    
+
     // Extract product IDs from orders
-    let productIds = orders.flatMap(order => order.products.map(p => p.item));
-    
+    let productIds = orders.flatMap((order) =>
+      order.products.map((p) => p.item)
+    );
+
     // Pass orders and product IDs to the view
-    res.render("user/order", { orders, productIds ,user:req.session.user});
+    res.render("user/order", { orders, productIds, user: req.session.user });
   } catch (err) {
     next(err); // Pass errors to the error handler
   }
 });
-router.get('/viewproduct/:productId',verifyLogged, async (req, res, next) => {
+router.get("/viewproduct/:productId", verifyLogged, async (req, res, next) => {
   try {
     const productId = req.params.productId;
     const product = await userhelper.getProductById(productId);
-    console.log(product)
+    console.log(product);
     if (product) {
-      res.render('user/product-details', { product ,user:req.session.user});
+      res.render("user/product-details", { product, user: req.session.user });
     } else {
-      res.status(404).send('Product not found');
+      res.status(404).send("Product not found");
     }
   } catch (err) {
     next(err); // Pass errors to the error handler
   }
 });
 // POST verify payment
-router.post("/verify-payment", verifyLogged,async (req, res, next) => {
+router.post("/verify-payment", verifyLogged, async (req, res, next) => {
   try {
     await userhelper.verifyPayment(req.body);
     await userhelper.changepaymentstatus(req.body["order[receipt]"]);

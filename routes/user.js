@@ -22,14 +22,14 @@ router.get("/", async (req, res, next) => {
 
     console.log("path / get called");
     let user = req.session.user;
-    console.log(user);
 
     let coun = 0;
     if (user) {
        await userhelper.cartCount(user._id).then((res)=>{
         coun=res;
+        console.log("count is "+coun)
        }).catch((err)=>{
-         console.log("error")
+         coun=0
        })
    
     }
@@ -37,6 +37,7 @@ router.get("/", async (req, res, next) => {
     let data = await productHelper.getAllproduct();
     res.render("user/view-products", { data, user, coun });
   } catch (err) {
+    console.log("error from the path")
     next(err); // Pass errors to the error handler
   }
 });
@@ -104,6 +105,7 @@ router.get("/view-cart", verifyLogged, async (req, res, next) => {
   try {
     let products = await userhelper.getCart(req.session.user._id);
     let total = await userhelper.totalprice(req.session.user._id);
+    console.log(products)
      console.log(products.length)
     res.render("user/view-cart", {
       products,
@@ -111,12 +113,13 @@ router.get("/view-cart", verifyLogged, async (req, res, next) => {
       total,
     });
   } catch (err) {
+    console.log(err)
     res.render("user/view-cart",{
       products:[],
       user:req.session.user,
       total:0
     })
-    // next(err); // Pass errors to the error handler
+    //  next(err); // Pass errors to the error handler
   }
 });
 
@@ -175,12 +178,13 @@ router.get("/order-success", verifyLogged, (req, res) => {
 router.get("/order", verifyLogged, async (req, res, next) => {
   try {
     let orders = await userhelper.vieworders(req.session.user._id);
-
+    console.log(orders)
     // Extract product IDs from orders
     let productIds = orders.flatMap((order) =>
+      
       order.products.map((p) => p.item)
     );
-
+   console.log(productIds)
     // Pass orders and product IDs to the view
     res.render("user/order", { orders, productIds, user: req.session.user });
   } catch (err) {

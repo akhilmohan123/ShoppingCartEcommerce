@@ -1,17 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>All Orders</title>
-  <!-- Include Bootstrap CSS or other styles here -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-  <header>
-    <!-- Include your admin header here -->
-  </header>
-  <main class="container mt-4">
+
+  <div class="container mt-4">
     <h1>All Orders</h1>
-    <table class="table">
+    <table class="table table-bordered">
       <thead>
         <tr>
           <th scope="col">Order ID</th>
@@ -21,26 +11,59 @@
           <th scope="col">Payment Method</th>
           <th scope="col">Total Price</th>
           <th scope="col">Status</th>
+          <th scope="col">Product Name</th>
           <th scope="col">Actions</th>
         </tr>
       </thead>
       <tbody>
         {{#each orders}}
+          {{#each this.products}}
           <tr>
-            <td>{{this._id}}</td>
-            <td>{{this.Date}}</td>
-            <td>{{this.address}}</td>
-            <td>{{this.pincode}}</td>
-            <td>{{this.paymentmethod}}</td>
-            <td>{{this.totalprice}}</td>
-            <td>{{this.status}}</td>
-            <td>
-              <a href="/admin/orders/{{this._id}}" class="btn btn-info">View Details</a>
-            </td>
+            {{#if @first}}
+              <td class="order-id-cell" rowspan="{{../products.length}}">{{../_id}}</td>
+              <td class="order-id-cell" rowspan="{{../products.length}}">{{../Date}}</td>
+              <td class="order-id-cell" rowspan="{{../products.length}}">{{../address}}</td>
+              <td class="order-id-cell" rowspan="{{../products.length}}">{{../pincode}}</td>
+              <td class="order-id-cell" rowspan="{{../products.length}}">{{../paymentmethod}}</td>
+              <td class="order-id-cell" rowspan="{{../products.length}}">₹{{../totalprice}}</td>
+              <td class="order-id-cell" rowspan="{{../products.length}}">{{../status}}</td>
+            {{/if}}
+            <td>{{this.name}}</td>
+            {{#if @first}}
+              <td class="order-id-cell" rowspan="{{../products.length}}">
+                <a href="/admin/orders/{{../_id}}" class="btn btn-info btn-sm">View Details</a>
+              </td>
+            {{/if}}
           </tr>
+          {{/each}}
         {{/each}}
       </tbody>
     </table>
-  </main>
-</body>
-</html>
+  </div>
+
+<style>
+        body {
+            background-color: #010101;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #343a40;
+        }
+        .table thead {
+            background-color: #007bff;
+            color: white;
+        }
+        .order-id-cell {
+            font-weight: bold;
+            background-color: #e9ecef;
+            vertical-align: middle;
+        }
+    </style>

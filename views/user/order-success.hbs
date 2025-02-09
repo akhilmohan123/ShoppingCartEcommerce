@@ -1,10 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Success</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        /* Background color transition */
+        body {
+            background: linear-gradient(120deg, #ff9a9e, #fad0c4);
+            animation: bgTransition 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgTransition {
+            0% {
+                background: linear-gradient(120deg, #0c0c0c, #171616);
+            }
+            100% {
+                background: linear-gradient(120deg, #a1c4fd, #c2e9fb);
+            }
+        }
+
+        /* Text fade-in effect */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* Button color transition */
+        .btn-primary {
+            transition: background-color 0.5s ease, transform 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #000000;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body onload="playSound()">
+
 <section>
     <div class="row">
         <div class="container">
-            <div class="col-md-12 text-center">
-                <h1 class="text-center">Order Placed Successfully</h1>
+            <div class="col-md-12 text-center fade-in">
+                <h1 class="text-center text-white">Order Placed Successfully</h1>
                 <a href="/order" class="btn btn-primary">View Orders</a>
             </div>
         </div>
     </div>
 </section>
+
+<audio id="successSound">
+    <source src="https://www.fesliyanstudios.com/play-mp3/4385" type="audio/mp3">
+</audio>
+
+<script>
+    function playSound() {
+        document.getElementById("successSound").play();
+    }
+</script>
+
+</body>
+</html>

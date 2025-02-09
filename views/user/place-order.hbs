@@ -1,34 +1,38 @@
+
+<nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+      
+        </div>
+    </nav>
 <section>
     <div class="container mt-5">
         <form action="" id="checkout-form">
             <div class="row">
                 <div class="col-md-6">
-                    <h2>Enter Delivary Details</h2><br>
-                    <div>
+                    <div class="checkout p-4">
+                        <h2>Enter Delivery Details</h2><br>
                         <label for="">Address</label>
-                        <input class="form-control" type="text" id="address" name="address">
-                        <label for="">
-                            Pincode
-                        </label>
-                        <input class="form-control" type="text" id="pincode" name="pincode">
-                         <label for="">Mobile</label>
-                        <input class="form-control" type="text" id="mobile" name="mobile">
+                        <input class="form-control" type="text" id="address" name="address" placeholder="Enter your address">
+                        <label for="">Pincode</label>
+                        <input class="form-control" type="text" id="pincode" name="pincode" placeholder="Enter pincode">
+                        <label for="">Mobile</label>
+                        <input class="form-control" type="text" id="mobile" name="mobile" placeholder="Enter mobile number">
                         <input type="text" name="userId" value="{{user._id}}" hidden>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="container mt-5 ml-5 checkout">
-                        <h5>Total Amount: Rs.{{total}}</h5>
+                <div class="col-md-6">
+                    <div class="checkout p-4">
+                        <h5 class="text-center">Total Amount: <strong>Rs.{{total}}</strong></h5>
                         <hr>
                         <div class="payment">
-                            <p>Payment</p>
+                            <p class="text-center"><strong>Payment Options</strong></p>
                             <label class="radio-inLine">
-                                <input type="radio" name="payment-method" value="COD" checked>COD
+                                <input type="radio" name="payment-method" value="COD" checked> Cash on Delivery (COD)
                             </label>
                             <label class="radio-inLine mt-2">
-                                <input type="radio"name="payment-method" value="ONLINE">online payment
+                                <input type="radio" name="payment-method" value="ONLINE"> Online Payment
                             </label>
-                            <button class="float-right btn btn-success">Checkout</button>
+                            <button class="btn btn-success mt-3">Proceed to Checkout</button>
                         </div>
                     </div>
                 </div>
@@ -36,12 +40,68 @@
         </form>
     </div>
 </section>
- 
+<style>
+    /* Navbar Styling */
+     nav{
+          height: 50px;
+        }
+         .navbar {
+        background-color: #1a283e;
+        padding: 0.5rem 1rem;
+    }
+    .navbar-brand {
+        color: #fff;
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+    body {
+    background: #f8f9fa;
+}
+
+.container {
+    max-width: 900px;
+}
+
+.checkout {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #343a40;
+}
+
+.form-control {
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.btn-success {
+    width: 100%;
+    font-size: 18px;
+    transition: 0.3s;
+}
+
+.btn-success:hover {
+    background: #218838;
+}
+
+.payment label {
+    display: block;
+    margin-top: 5px;
+}
+
+.radio-inLine input {
+    margin-right: 5px;
+}
+
+</style>
 <script>
-   
-    
-    $('#checkout-form').submit((e)=>{
+  $('#checkout-form').submit((e)=>{
         e.preventDefault()
+        confirm('are you sure')
         $.ajax({
             url:'/place-order',
             method:'post',
@@ -65,7 +125,7 @@
     "name": "Acme Corp", //your business name
     "description": "Test Transaction",
     "image": "https:/4e.com/your_logo",
-    "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "order_id": order.id, //This is a sample Order ID. Pass the id obtained in the response of Step 1
     "handler": function (response){
         alert(response.razorpay_payment_id);
         alert(response.razorpay_order_id);
@@ -107,4 +167,5 @@
             
         })
     }
+
 </script>

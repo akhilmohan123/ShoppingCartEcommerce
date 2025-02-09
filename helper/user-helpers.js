@@ -153,14 +153,14 @@ module.exports = {
 
   cartCount: (userid) => {
     return new Promise(async (resolve, reject) => {
-      let count = 0;
-   
-      let cart = await db
+      try {
+        let cart = await db
         .get()
         .collection("cart")
         .findOne({ user: new objectId(userid) });
         // console.log(cart.products[0].quantity)
-        console.log(cart.products.length)
+
+      
       if (cart.products.length >1) {
         cart.products.forEach(element => {
           count+=element.quantity
@@ -169,6 +169,12 @@ module.exports = {
         count=cart.products.length
       }
       resolve(count);
+      } catch (error) {
+        reject(error)
+      }
+      let count = 0;
+   
+      
     });
   },
   changeProductQuantity: (details) => {

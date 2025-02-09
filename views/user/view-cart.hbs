@@ -1,6 +1,13 @@
+
+
+ <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            
+        </div>
+    </nav>
 <section class="container my-5">
   <div class="card shadow-lg p-4">
-    <h2 class="mb-4 text-center">Shopping Cart</h2>
+    <h2 class="mb-4 text-center text-white">Shopping Cart</h2>
 
     <table class="table table-hover align-middle" id="cart-table">
       <thead class="thead-dark">
@@ -19,7 +26,7 @@
               <td class="text-center">
                 <img src="/product-images/{{this.product._id}}.jpg" class="img-thumbnail" style="height:80px; width:80px;">
               </td>
-              <td>
+              <td class="text-white">
                 <h5>{{this.product.Description}}</h5>
               </td>
               <td>
@@ -33,7 +40,7 @@
                   <i class="fas fa-plus">+</i>
                 </button>
               </td>
-              <td class="font-weight-bold">₹{{this.product.Price}}</td>
+              <td class="font-weight-bold text-white">₹{{this.product.Price}}</td>
               <td>
                 <button class="btn btn-danger btn-sm" 
                         onclick="Change('{{this._id}}', '{{this.product._id}}', '{{../user}}', -{{this.quantity}})">
@@ -44,10 +51,10 @@
           {{/each}}
         {{else}}
           <tr>
-            <td colspan="5" class="text-center">
-              <h3>Your cart is empty</h3>
-              <p>It looks like you haven't added any products to your cart yet.</p>
-              <a href="/shop" class="btn btn-primary mt-3">Go to Shop</a>
+            <td colspan="5" class="text-center text-white">
+              <h3 class="text-white">Your cart is empty</h3>
+              <p class="text-white">It looks like you haven't added any products to your cart yet.</p>
+              <a href="/" class="btn btn-primary mt-3 text-white" >Go to Shop</a>
             </td>
           </tr>
         {{/if}}
@@ -57,7 +64,7 @@
     <hr>
     {{#if products.length}}
       <div class="d-flex justify-content-between align-items-center mt-4">
-        <h3>Total Price: ₹<span id="total">{{total}}</span></h3>
+        <h3 class="text-white">Total Price: ₹<span id="total">{{total}}</span></h3>
         <a href="/place-order" class="btn btn-success btn-lg">Place Order</a>
       </div>
     {{/if}}
@@ -91,3 +98,21 @@
     });
   }
 </script>
+
+<style>
+   .navbar {
+            background-color: #1a283e;
+            padding: 0.5rem 1rem;
+        }
+        .navbar-brand {
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        nav{
+          height: 50px;
+        }
+        .card{
+          background-color: rgb(20, 20, 20);
+        }
+</style>

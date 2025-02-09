@@ -13,7 +13,7 @@ module.exports={
     }
     ,getAllproduct:()=>{
         return new Promise(async( resolve,reject)=>{
-             
+             console.log("get all product function is called")
              let product= await  db.get().collection('products').find().toArray()
              resolve(product)
              

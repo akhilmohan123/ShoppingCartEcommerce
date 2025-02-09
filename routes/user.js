@@ -18,19 +18,29 @@ const verifyLogged = (req, res, next) => {
 // GET home page
 router.get("/", async (req, res, next) => {
   try {
+
+
     console.log("path / get called");
     let user = req.session.user;
-    let coun = null;
+    console.log(user);
+
+    let coun = 0;
     if (user) {
-      coun = await userhelper.cartCount(user._id);
-      console.log("count from main page is "+coun)
+       await userhelper.cartCount(user._id).then((res)=>{
+        coun=res;
+       }).catch((err)=>{
+         console.log("error")
+       })
+   
     }
+
     let data = await productHelper.getAllproduct();
     res.render("user/view-products", { data, user, coun });
   } catch (err) {
     next(err); // Pass errors to the error handler
   }
 });
+
 
 // GET login page
 router.get("/login", (req, res) => {
@@ -94,14 +104,19 @@ router.get("/view-cart", verifyLogged, async (req, res, next) => {
   try {
     let products = await userhelper.getCart(req.session.user._id);
     let total = await userhelper.totalprice(req.session.user._id);
-
+     console.log(products.length)
     res.render("user/view-cart", {
       products,
       user: req.session.user._id,
       total,
     });
   } catch (err) {
-    next(err); // Pass errors to the error handler
+    res.render("user/view-cart",{
+      products:[],
+      user:req.session.user,
+      total:0
+    })
+    // next(err); // Pass errors to the error handler
   }
 });
 
@@ -119,6 +134,7 @@ router.post("/change-product-quantity", async (req, res, next) => {
 // GET logout
 router.get("/logout", (req, res) => {
   req.session.user = null;
+  req.session.destroy()
   res.redirect("/");
 });
 

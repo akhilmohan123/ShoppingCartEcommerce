@@ -68,8 +68,9 @@ router.post("/login", async (req, res, next) => {
       req.session.user.Loggedin = true;
       res.redirect("/");
     } else {
+    
       req.session.userLoginerr = "Invalid username or password";
-      res.redirect("/login");
+      res.redirect("/login",);
     }
   } catch (err) {
     next(err); // Pass errors to the error handler
@@ -195,5 +196,14 @@ router.post("/verify-payment", verifyLogged, async (req, res, next) => {
     res.json({ status: false });
   }
 });
+
+router.get("/product-individual/:id",verifyLogged,async(req,res)=>{
+  const id=req.params.id
+    let products=await userhelper.getProductById(id)
+    
+    res.render('user/product',{products,
+      user: req.session.user._id,
+    })
+})
 
 module.exports = router;

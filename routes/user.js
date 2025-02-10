@@ -34,7 +34,14 @@ router.get("/", async (req, res, next) => {
    
     }
 
-    let data = await productHelper.getAllproduct();
+      await productHelper.getAllproduct().then((resdata)=>{
+        data=resdata
+      }).catch((error)=>{
+        if(error){
+          console.log(error)
+        }
+      })
+
     res.render("user/view-products", { data, user, coun });
   } catch (err) {
     console.log("error from the path")
@@ -177,6 +184,7 @@ router.get("/order-success", verifyLogged, (req, res) => {
 // GET order
 router.get("/order", verifyLogged, async (req, res, next) => {
   try {
+    console.log("order api is called")
     let orders = await userhelper.vieworders(req.session.user._id);
     console.log(orders)
     // Extract product IDs from orders

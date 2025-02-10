@@ -1,15 +1,16 @@
-<section>
-  <div>
-    <table class="table">
-      <thead>
+<section class="container mt-4">
+  <div class="card shadow-lg p-4">
+    <h2 class="text-center mb-4 text-primary">Your Orders</h2>
+    <table class="table table-bordered text-center">
+      <thead class="thead-dark">
         <tr>
-          <th scope="col">Date</th>
-          <th scope="col">Address</th>
-          <th scope="col">Pincode</th>
-          <th scope="col">Payment Method</th>
-          <th scope="col">Price</th>
-          <th scope="col">Status</th>
-          <th scope="col">Action</th>
+          <th>Date</th>
+          <th>Address</th>
+          <th>Pincode</th>
+          <th>Payment Method</th>
+          <th>Price</th>
+          <th>Status</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -19,20 +20,50 @@
           <td>{{this.delivarydetails.address}}</td>
           <td>{{this.delivarydetails.pincode}}</td>
           <td>{{this.paymentmethod}}</td>
-          <td>{{this.totalprice}}</td>
-          <td>{{this.status}}</td>
+          <td><strong>₹{{this.totalprice}}</strong></td>
+        
+    <td>
+      {{#if status}}
+      {{#if (status "Delivered")}}
+      <span class="badge badge-success">Delivered</span>
+      {{else if (status "Pending")}}
+      <span class="badge badge-warning">Pending</span>
+      {{else if (status "Cancelled")}}
+        <span class="badge badge-danger">Cancelled</span>
+      {{else}}
+        <span class="badge badge-secondary">{{status}}</span>
+      {{/if}}
+    {{/if}}
+     </td>
+    
           <td>
-            {{#each this.products}}
-              <a href="/viewproduct/{{this.item}}" class="btn btn-success">View Product</a>
-            {{/each}}
+            <button class="btn btn-primary btn-sm" data-toggle="collapse" data-target="#order-{{@index}}">
+              View Products
+            </button>
+          </td>
+        </tr>
+
+        <!-- Collapsible Products Section -->
+        <tr class="collapse bg-light" id="order-{{@index}}">
+          <td colspan="7">
+            <div class="d-flex flex-wrap justify-content-center">
+              {{#each this.products}}
+              <div class="card m-2 p-2 shadow-sm" style="width: 14rem;">
+                <img src="/images/{{this.item}}" class="card-img-top" alt="Product Image" style="height: 150px; object-fit: cover;">
+                <div class="card-body text-center">
+                  <a href="/viewproduct/{{this.item}}" class="btn btn-success btn-sm">View Product</a>
+                </div>
+              </div>
+              {{/each}}
+            </div>
           </td>
         </tr>
         {{/each}}
       </tbody>
     </table>
     <hr>
-    <h3 class="float-right mr-5 mt-4">
-      Total Price: RS: {{total}}
+    <h3 class="text-right font-weight-bold text-dark">
+      Total Price: ₹{{total}}
     </h3>
   </div>
 </section>

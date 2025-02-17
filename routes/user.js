@@ -190,9 +190,13 @@ router.get("/order", verifyLogged, async (req, res, next) => {
     // Extract product IDs from orders
     let productIds = orders.flatMap((order) =>
       
-      order.products.map((p) => p.item)
+      order.products.map((p) => console.log(p))
     );
-   console.log(productIds)
+  // orders.forEach((order)=>{
+  //   order.forEeach((product)=>{
+  //     console.log(product.name)
+  //   })
+  })
     // Pass orders and product IDs to the view
     res.render("user/order", { orders, productIds, user: req.session.user });
   } catch (err) {

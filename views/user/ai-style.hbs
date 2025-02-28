@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Stylist</title>
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <!-- AOS (Animate On Scroll) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+    <style>
+         nav{
+          height: 30px;
+        }
+        .navbar {
+            background-color: #000000;
+            padding: 0.5rem 1rem;
+        }
+        .navbar-brand {
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+            background-color: #f8f8f8;
+        }
+
+        /* Video Section */
+        .video-section {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .video-section video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Overlay Text */
+        .overlay {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+            transform: translateY(-50%);
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        /* AI Text Section */
+        .ai-text-section {
+            text-align: center;
+            padding: 50px 20px;
+            background: white;
+        }
+
+        .ai-text-section h2 {
+            font-size: 2rem;
+            color: #333;
+        }
+
+        .ai-text-section p {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        /* New Image Section */
+        .image-section {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .background-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            opacity: 0.9;
+        }
+
+        /* Try It Now Button */
+        #tryItNow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            background: linear-gradient(45deg, #ff6f61, #ff3b2f);
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out, transform 0.4s ease-in-out;
+        }
+
+        #tryItNow:hover {
+            background: linear-gradient(45deg, #ff3b2f, #ff6f61);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+    </style>
+</head>
+<body>
+   <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            {{!-- <a class="navbar-brand" href="#">Ecommerce</a> --}}
+            {{!-- <form class="d-flex search-bar">
+                <input class="form-control me-2" type="search" placeholder="Search for products, brands and more" aria-label="Search">
+                <button class="btn btn-outline-light" type="submit"><i class="fas fa-search"></i></button>
+            </form> --}}
+        </div>
+    </nav>
+    <!-- Video Section -->
+    <div class="video-section">
+        <video autoplay muted loop playsinline id="aiFashionVideo">
+            <source src="video/ai.mp4" type="video/mp4">
+        </video>
+        <div class="overlay">
+            <h1 id="typewriter-text"></h1>
+        </div>
+    </div>
+
+    <!-- AI Fashion Text & Try It Now Section -->
+    <div class="ai-text-section">
+        <h2 data-aos="fade-up">Your Personal AI Stylist</h2>
+        <p data-aos="fade-up" data-aos-delay="200">
+            Experience the power of AI in fashion. Get personalized outfit recommendations, trend insights, and styling tips instantly!
+        </p>
+    </div>
+
+    <!-- New Image Section -->
+    <div class="image-section">
+        <img src="images/ai3.jpg" alt="Fashion Background" class="background-image">
+        <button id="tryItNow" onclick="redirectToUpload()">Try It Now</button>
+    </div>
+
+    <script>
+        // Initialize AOS (Scroll Animations)
+        AOS.init({
+            duration: 1000,
+            easing: 'ease-in-out',
+            once: true
+        });
+
+        // Scroll-triggered Button Visibility
+        window.addEventListener("scroll", function () {
+            let button = document.getElementById("tryItNow");
+            let videoSection = document.querySelector(".video-section");
+            let videoBottom = videoSection.offsetTop + videoSection.offsetHeight;
+
+            if (window.scrollY >= videoBottom - 200) {
+                button.style.opacity = "1";
+                button.style.transform = "translate(-50%, -50%) scale(1)";
+            } else {
+                button.style.opacity = "0";
+                button.style.transform = "translate(-50%, -40%) scale(0.9)";
+            }
+        });
+
+        // GSAP Parallax Scrolling Effect
+        gsap.to("#aiFashionVideo", {
+            y: "-8%", 
+            scrollTrigger: {
+                trigger: ".video-section",
+                start: "top top",
+                scrub: 2
+            }
+        });
+
+        // Typewriter Effect
+        const text = "AI Fashion Stylist";
+        let i = 0;
+        function typeWriter() {
+            let title = document.getElementById("typewriter-text");
+            title.innerHTML = "";
+
+            function typing() {
+                if (i < text.length) {
+                    title.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(typing, 100);
+                }
+            }
+
+            typing();
+        }
+        document.addEventListener("DOMContentLoaded", typeWriter);
+
+        // Redirect to Upload Page
+        function redirectToUpload() {
+            window.location.href = "upload.html";  
+        }
+    </script>
+
+</body>
+</html>

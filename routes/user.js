@@ -196,10 +196,10 @@ router.get("/order", verifyLogged, async (req, res, next) => {
   //   order.forEeach((product)=>{
   //     console.log(product.name)
   //   })
-  })
+  res.render("user/order", { orders, productIds, user: req.session.user });
+  }
     // Pass orders and product IDs to the view
-    res.render("user/order", { orders, productIds, user: req.session.user });
-  } catch (err) {
+   catch (err) {
     next(err); // Pass errors to the error handler
   }
 });
@@ -236,6 +236,9 @@ router.get("/product-individual/:id",verifyLogged,async(req,res)=>{
     res.render('user/product',{products,
       user: req.session.user._id,
     })
+})
+router.get("/ai-style",verifyLogged,async(req,res)=>{
+  res.render('user/ai-style',{user:req.session.user})
 })
 
 module.exports = router;

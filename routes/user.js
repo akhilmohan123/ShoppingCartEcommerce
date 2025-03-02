@@ -36,6 +36,7 @@ router.get("/", async (req, res, next) => {
 
       await productHelper.getAllproduct().then((resdata)=>{
         data=resdata
+        console.log(resdata)
       }).catch((error)=>{
         if(error){
           console.log(error)
@@ -239,6 +240,10 @@ router.get("/product-individual/:id",verifyLogged,async(req,res)=>{
 })
 router.get("/ai-style",verifyLogged,async(req,res)=>{
   res.render('user/ai-style',{user:req.session.user})
+})
+router.get("/ai-individual",verifyLogged,async(req,res)=>{
+
+  res.render("user/ai-individual",{user:req.session.user})
 })
 
 module.exports = router;

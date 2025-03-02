@@ -17,6 +17,7 @@
           height: 30px;
         }
         .navbar {
+            background: transparent;
             background-color: #000000;
             padding: 0.5rem 1rem;
         }
@@ -113,6 +114,10 @@
             background: linear-gradient(45deg, #ff3b2f, #ff6f61);
             transform: translate(-50%, -50%) scale(1.1);
         }
+        #linkai{
+            text-decoration: none;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -146,7 +151,7 @@
     <!-- New Image Section -->
     <div class="image-section">
         <img src="images/ai3.jpg" alt="Fashion Background" class="background-image">
-        <button id="tryItNow" onclick="redirectToUpload()">Try It Now</button>
+        <button id="tryItNow"><a id="linkai" href="ai-individual">Try It Now</a></button>
     </div>
 
     <script>
@@ -201,10 +206,7 @@
         }
         document.addEventListener("DOMContentLoaded", typeWriter);
 
-        // Redirect to Upload Page
-        function redirectToUpload() {
-            window.location.href = "upload.html";  
-        }
+    
     </script>
 
 </body>

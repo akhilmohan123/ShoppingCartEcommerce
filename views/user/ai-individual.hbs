@@ -1,42 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Face Scan UI</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
-<style>
-        nav{
-          height: 30px;
-        }
-        .navbar {
-            background: transparent;
-            background-color: #000000;
-            padding: 0.5rem 1rem;
-        }
-        .navbar-brand {
-            color: #fff;
-            font-weight: bold;
-            font-size: 1.5rem;
-        }
-        .main-image{
-            background-image: url('images/ai-individual1.jpg');
-        }
-</style>
 <body>
-   <div class="main">
-      <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container-fluid">
-            {{!-- <a class="navbar-brand" href="#">Ecommerce</a> --}}
-            {{!-- <form class="d-flex search-bar">
-                <input class="form-control me-2" type="search" placeholder="Search for products, brands and more" aria-label="Search">
-                <button class="btn btn-outline-light" type="submit"><i class="fas fa-search"></i></button>
-            </form> --}}
+    <div class="background-image"></div>
+    <div class="container">
+        <div class="header">
+            <h1>AI Face Scan</h1>
+            <p>Position your face within the frame for scanning.</p>
         </div>
-    </nav>
-   <div class="main-image">
+        <div class="scanner-container">
+            <div class="scanner-frame">
+                <img src="images/facescan.jpg" alt="" class="face-preview">
+                <div class="scan-overlay"></div>
+            </div>
+            <button class="scan-button">Start Scan</button>
+        </div>
+        <div class="results-ui" id="results-ui" style="display: none;">
+            <h1>AI Face Scan Results</h1>
+            <p>Here are your personalized recommendations based on your scan.</p>
+        
 
-   </div>
-   </div>
+        <!-- Dress Recommendations-->
+        <div class="results-sections">
+            <h2>Dress Recommendations</h2>
+            <div class="recommendations">
+                <div class="item">
+                    <img src="" alt="">
+                    <p>Elegant Evening Gown</p>
+                    <a href="#" class="buy-button">Buy Now</a>
+                </div>
+            </div>
+        </div>
+        
+       
+        </div>
+        </div>
+    </div>
 </body>
+<style>
+ body{
+    font-family: 'Arial',sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    color: #fff;
+    background-color: #000;
+ }
+ .background-image{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("images/ai-individual1.jpg");
+    background-size: cover;
+    filter: blur(8px) brightness(0.6);
+    z-index: -1;
+ }
+ .container{
+    background-color: rgba(0,0,0,0.7);
+    border-radius: 15px;
+    width: 400px;
+    padding: 30px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+
+ }
+ .header h1{
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #fff;
+ }
+ .header p{
+    font-size: 14px;
+    color: #ccc;
+ }
+ .scanner-container{
+    margin: 20px 0;
+ }
+ .scanner-frame{
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+    border: 2px dashed rgba(255, 255, 255, 0.5);
+    border-radius: 15px;
+    overflow: hidden;
+      background-color: rgba(255, 255, 255, 0.1);
+ }
+ .face-preview{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+ }
+ .scan-overlay{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom,rgba(255,255,255,0.1),rgba(255, 255, 255, 0.3));
+    animation: scan 2s infinite;
+ }
+ @keyframes scan{
+    0%{top:-100%;}
+    100%{top:100%}
+ }
+ .scan-button{
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+
+ }
+ .scan-button:hover{
+    background-color: #0056b3;
+ }
+ .results{
+    margin-top: 20px;
+ }
+ .results h2{
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #fff;
+ }
+ .results p{
+    font-size: 14px;
+    color: #ccc;
+ }
+ 
+</style>
 </html>

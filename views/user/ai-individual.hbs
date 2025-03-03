@@ -7,40 +7,77 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="background-image"></div>
-    <div class="container">
-        <div class="header">
-            <h1>AI Face Scan</h1>
-            <p>Position your face within the frame for scanning.</p>
+   <body>
+  <div class="background-image"></div>
+  <div class="container">
+    <!-- Scanning UI -->
+    <div id="scanning-ui" class="scanning-ui">
+      <div class="header">
+        <h1>AI Face Scan</h1>
+        <p>Position your face within the frame for scanning.</p>
+      </div>
+      <div class="scanner-container">
+        <div class="scanner-frame">
+          <img src="images/facescan.jpg" alt="Face Scan Preview" class="face-preview">
+          <div class="scan-overlay"></div>
         </div>
-        <div class="scanner-container">
-            <div class="scanner-frame">
-                <img src="images/facescan.jpg" alt="" class="face-preview">
-                <div class="scan-overlay"></div>
-            </div>
-            <button class="scan-button">Start Scan</button>
-        </div>
-        <div class="results-ui" id="results-ui" style="display: none;">
-            <h1>AI Face Scan Results</h1>
-            <p>Here are your personalized recommendations based on your scan.</p>
-        
-
-        <!-- Dress Recommendations-->
-        <div class="results-sections">
-            <h2>Dress Recommendations</h2>
-            <div class="recommendations">
-                <div class="item">
-                    <img src="" alt="">
-                    <p>Elegant Evening Gown</p>
-                    <a href="#" class="buy-button">Buy Now</a>
-                </div>
-            </div>
-        </div>
-        
-       
-        </div>
-        </div>
+        <button id="scan-button" class="scan-button">Start Scan</button>
+      </div>
     </div>
+
+    <!-- Results UI -->
+    <div id="results-ui" class="results-ui" style="display: none;">
+      <div class="header">
+        <h1>AI Face Scan Results</h1>
+        <p>Here are your personalized recommendations based on your scan.</p>
+      </div>
+
+      <!-- Dress Recommendations -->
+      <div class="results-section">
+        <h2>Dress Recommendations</h2>
+        <div class="recommendations">
+          <div class="item">
+            <img src="https://via.placeholder.com/150x200" alt="Dress 1">
+            <p>Elegant Evening Gown</p>
+            <a href="#" class="buy-button">Buy Now</a>
+          </div>
+          <div class="item">
+            <img src="https://via.placeholder.com/150x200" alt="Dress 2">
+            <p>Casual Summer Dress</p>
+            <a href="#" class="buy-button">Buy Now</a>
+          </div>
+          <div class="item">
+            <img src="https://via.placeholder.com/150x200" alt="Dress 3">
+            <p>Formal Office Wear</p>
+            <a href="#" class="buy-button">Buy Now</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Face Product Recommendations -->
+      <div class="results-section">
+        <h2>Face Product Recommendations</h2>
+        <div class="recommendations">
+          <div class="item">
+            <img src="https://via.placeholder.com/150x200" alt="Product 1">
+            <p>Matte Lipstick - Red</p>
+            <a href="#" class="buy-button">Buy Now</a>
+          </div>
+          <div class="item">
+            <img src="https://via.placeholder.com/150x200" alt="Product 2">
+            <p>Hydrating Face Cream</p>
+            <a href="#" class="buy-button">Buy Now</a>
+          </div>
+          <div class="item">
+            <img src="https://via.placeholder.com/150x200" alt="Product 3">
+            <p>Eyebrow Pencil</p>
+            <a href="#" class="buy-button">Buy Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </body>
 <style>
  body{
@@ -143,6 +180,74 @@
     font-size: 14px;
     color: #ccc;
  }
+ .results-section{
+   margin-top: 30px;
+ }
+ .results-section h2{
+   font-size: 20px;
+   margin-bottom: 20px;
+   color: #fff;
+ }
+ .recommendations{
+   display: flex;
+   justify-content: space-around;
+   gap: 20px;
+ }
+ .item{
+   background-color: rgb(255, 255,255,0.1);
+   border-radius: 10px;
+   padding: 15px;
+   width: 150px;
+   text-align: center;
+   transition: transform 0.3s ease,box-shadow 0.3s ease;
+
+ }
+ .item:hover{
+   transform: translateY(-10px);
+   box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+
+ }
+ .item img{
+   width: 100%;
+   height: auto;
+   border-radius: 10px;
+ }
+ .item p{
+   font-size: 14px;
+   margin: 10px 0;
+   color: #fff;
+ }
+ .buy-button{
+   display: inline-block;
+   background-color: #007bff;
+   color: #fff;
+   padding: 8px 15px;
+   border-radius: 20px;
+   text-decoration: none;
+   font-size: 12px;
+   transition: background-color 0.3s ease;
+ }
+ .buy-button:hover{
+   background-color: #0056b3;
+ }
+ 
  
 </style>
+<script>
+   //switch between scanning ui andresults ui
+   const scanButton=document.getElementById('scan-button');
+   const scanningUi=document.getElementById("scanning-ui")
+   const resultsUi=document.getElementById("results-ui");
+
+   scanButton.addEventListener("click",()=>{
+      //hiding scanning ui
+
+      scanningUi.style.display='none'
+
+      //show results ui
+
+      resultsUi.style.display='block'
+   })
+
+</script>
 </html>

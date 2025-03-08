@@ -1,23 +1,118 @@
 <section>
     <div class="conatainer mt-4 ml-3">
-        <div class="row">
+        <div class="row justify-content-center">
             <div class="col-md-6">
+                <div class="form-container">
                 <h2 class="text-center">Add Products</h2>
                 <form action="/admin/add-product"enctype="multipart/form-data"method="post">
+                <div class="mb-3">
                 <label for="text">Name</label>
-                <input type="text" name="Name" class="form-control">
+                <input type="text" name="Name" class="form-control" required>
+                </div>
+                 <div class="mb-3"></div>
                 <label for="">Category</label>
-                <input type="text" name="Category" class="form-control">
+                <input type="text" name="Category" class="form-control" required>
+                <div class="mb-3">
                 <label for="">Price</label>
-                <input type="text" name="Price" class="form-control">
+                <input type="text" name="Price" class="form-control" required>
+                </div>
+                <div class="mb-3">
                 <label for="">Description</label>
-                <input type="text" name="Description" class="form-control">
+                <input type="text" name="Description" class="form-control" required>
+                </div>
+                <div class="mb-3">
                 <label for="">Image</label>
-                <input type="file" class="form-control" name="Image">
+                <input type="file" class="form-control" name="Image" required>
+                </div>
+                <div class="mb-3">
+                <label for="cars">Choose Category:</label>
+                   
+                   <select name="categories" id="categories">
+                    <option selected>None</option>
+                   <option value="electronic">Electronic</option>
+                  <option value="fashion"> Fashion and Apparel</option>
+                   <option value="home">Home and Kitchen</option>
+                  <option value="essentials">Groceries and Essentials</option>
+                    </select>
+                    </div>
+                  <div class="optiondiv" style="display: none;" id="optiondiv">
+                    <div class="mb-3">
+                    <label for="">Age</label>
+                    <input type="text" class="form-control" name="age" >
+                    </div>
+                    <div class="mb-6">
+                    <label for="">Gender</label>
+                    <input type="" class="form-control" name="gender" >
+                    </div>
+                  </div>
                 <button class="btn btn-success mt-4" >Submit</button>
                 </form>
+                </div>
             </div>
         </div>
         </div>
 </section>
 <script>
+var element=document.getElementById("optiondiv")
+
+$(document).ready(function() {
+  $("#categories").change(function() {
+    if ($(this).val() == "fashion") {
+      element.style.display="block";
+    } else {
+        element.style.display="none";
+    }
+  });
+});
+
+</script>
+<style>
+    .form-container{
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow:  0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 10px;
+    }
+    .form-container h2{
+        margin-bottom: 20px;
+        font-weight: bold;
+        color: #333;
+    }
+    .form-container label{
+        font-weight: 500;
+        color: #555;
+
+    }
+    .form-container input,
+    .form-container select{
+        margin-bottom: 15px;
+        border-radius: 5px;
+        border:  1px solid #ddd;
+        padding: 10px;
+    }
+    .form-container input:focus,
+    .form-container select:focus{
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+    .form-container button{
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        background-color: #28a745;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+
+    }
+    .form-container button:hover{
+        background-color: #218838;
+    }
+    .optiondiv{
+        margin-top: 15px;
+        padding: 15px;
+        background-color: #f1f1f1;
+        border-radius: 5px;
+    }
+</style>

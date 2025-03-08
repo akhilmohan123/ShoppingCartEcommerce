@@ -52,6 +52,8 @@ router.get("/add-product",verifyAdmin, (req, res) => {
 
 // POST add product
 router.post("/add-product", verifyAdmin,(req, res, next) => {
+  console.log("Add product api is called")
+  console.log(req.body)
   try {
     productHelper.addProduct(req.body, (id) => {
       let image = req.files.Image;

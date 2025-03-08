@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Face Scan UI</title>
-  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
    <body>
@@ -19,10 +18,35 @@
       <div class="scanner-container">
         <div class="scanner-frame">
           <img src="images/facescan.jpg" alt="Face Scan Preview" class="face-preview">
+          <video id="video" autoplay playsinline></video><!--Webcam feed will be displayed here-->
           <div class="scan-overlay"></div>
         </div>
         <button id="scan-button" class="scan-button">Start Scan</button>
       </div>
+    </div>
+
+    <!-- Photo Capture Ui -->
+
+    <div id="photo-capture-ui" class="photo-capture-ui" style="display: none;">
+      <div class="header">
+        <h1>Capture Your Photo</h1>
+        <p>Please upload or capture a clear photo of your face.</p>
+      </div>
+      <div class="photo-container">
+        <!-- upload photo option --->
+        <input type="file" id="photo-input" accept="image/*" style="display: none;">
+        <label for="photo-input" class="photo-upload-button">Upload Photo</label>
+
+        <!-- Live Capture Option -->
+
+        <button id="capture-button" class="photo-upload-button">Capture Live Photo</button>
+
+        <!-- photo preview --->
+        <div id="photo-preview" class="photo-preview"></div>
+        <button id="proceed-button" class="proceed-button" disabled>Proceed to Result</button>
+
+      </div>
+
     </div>
 
     <!-- Results UI -->
@@ -165,6 +189,17 @@
     transition: background-color 0.3s ease;
 
  }
+ .proceed-button{
+   background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+ }
  .scan-button:hover{
     background-color: #0056b3;
  }
@@ -230,6 +265,45 @@
  .buy-button:hover{
    background-color: #0056b3;
  }
+ #video{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+ }
+
+ .photo-capture-ui{
+  display: none;
+ }
+ .photo-container{
+  margin: 20px 0;
+ }
+
+ .photo-preview{
+  margin: 20px auto;
+  width: 200px;
+  height: 200px;
+  border: 2px dashed rgba(255, 255, 255, 0.5);
+  border-radius: 15px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255,255,255,0.1);
+ }
+ .captured-photo{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+ }
+ .photo-upload-button{
+  cursor: pointer;
+  border-radius: 2px;
+ }
+ .photo-upload-button:hover{
+  background-color: rgb(255, 255,255,0.1);
+ }
+
+
  
  
 </style>
@@ -238,15 +312,79 @@
    const scanButton=document.getElementById('scan-button');
    const scanningUi=document.getElementById("scanning-ui")
    const resultsUi=document.getElementById("results-ui");
+   const photoCaptureui=document.getElementById('photo-capture-ui');
+   const photInput=document.getElementById('photo-input');
+   const photoPreview=document.getElementById('photo-preview');
+   const proceedButton=document.getElementById('proceed-button');
+   const captureButton=document.getElementById('capture-button');
+   const video=document.getElementById('video');
+   let mediaStream=null;
+
+
+
+   //Start webcam feed
+
+   async function startWebcam(){
+    try{
+      mediaStream=await navigator.mediaDevices.getUserMedia({video:true,audio:false});
+      video.srcObject=mediaStream;
+    }catch(error){
+      console.error('Error accessing the webcam ',error)
+      alert('Unable to access the webcam.Please ensure your camera is enabled')
+
+    }
+   }
+   //stop webcam feed
+   function stopWebcam(){
+    if(mediaStream){
+      mediaStream.getTracks().forEach(track=>track.stop())
+    }
+   }
 
    scanButton.addEventListener("click",()=>{
+     
       //hiding scanning ui
-
+      
       scanningUi.style.display='none'
+      //show photo capture ui
+  photoCaptureui.style.display='block';
+  //start web cam feed
+ startWebcam();
 
-      //show results ui
+      
+   })
 
-      resultsUi.style.display='block'
+   photInput.addEventListener('change',(event)=>{
+    const file=event.target.files[0];
+    if(file){
+      const reader=new fileReader();
+      reader.onload=(e)=>{
+        photoPreview.innerHTML=`<img src="${e.target.result}" alt="Captured Photo" class="captured-photo">`;
+        proceedButton.display=false;
+      }
+      reader.readAsDataURL(file)
+    }
+   });
+
+   captureButton.addEventListener('click',()=>{
+    //Capture photo from webcam
+    const canvas=document.createElement('canvas');
+    canvas.width=video.videoWidth;
+    canvas.height=video.videoHeight;
+    const context=canvas.getContext('2d');
+    context.drawImage(video,0,0,canvas.width,canvas.height);
+    const dataurl=canvas.toDataURL('image/jpeg');
+    photoPreview.innerHTML=`<img src="${dataurl}" alt="Captured photo" class="captured-photo">`
+    proceedButton.disabled=false;
+   })
+   proceedButton.addEventListener('click',()=>{
+    //hide photo capture ui
+
+    photoCaptureui.style.display='none';
+    //show results ui
+    resultsUi.style.display='block';
+    //stop webcam feed
+    startWebcam()
    })
 
 </script>

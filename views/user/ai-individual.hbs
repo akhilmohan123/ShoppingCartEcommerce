@@ -308,92 +308,110 @@
  
 </style>
 <script>
-   //switch between scanning ui andresults ui
-   const scanButton=document.getElementById('scan-button');
-   const scanningUi=document.getElementById("scanning-ui")
-   const resultsUi=document.getElementById("results-ui");
-   const photoCaptureui=document.getElementById('photo-capture-ui');
-   const photInput=document.getElementById('photo-input');
-   const photoPreview=document.getElementById('photo-preview');
-   const proceedButton=document.getElementById('proceed-button');
-   const captureButton=document.getElementById('capture-button');
-   const video=document.getElementById('video');
-   let mediaStream=null;
+ // DOM Elements
+const scanButton = document.getElementById('scan-button');
+const scanningUi = document.getElementById('scanning-ui');
+const resultsUi = document.getElementById('results-ui');
+const photoCaptureui = document.getElementById('photo-capture-ui');
+const photoInput = document.getElementById('photo-input');
+const photoPreview = document.getElementById('photo-preview');
+const proceedButton = document.getElementById('proceed-button');
+const captureButton = document.getElementById('capture-button');
+const video = document.getElementById('video');
+let mediaStream = null;
+let file = null;
 
+// Start webcam feed
+async function startWebcam() {
+  try {
+    mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+    video.srcObject = mediaStream;
+  } catch (error) {
+    console.error('Error accessing the webcam:', error);
+    alert('Unable to access the webcam. Please ensure your camera is enabled.');
+  }
+}
 
+// Stop webcam feed
+function stopWebcam() {
+  if (mediaStream) {
+    mediaStream.getTracks().forEach(track => track.stop());
+  }
+}
 
-   //Start webcam feed
+// Switch to photo capture UI
+scanButton.addEventListener('click', () => {
+  scanningUi.style.display = 'none';
+  photoCaptureui.style.display = 'block';
+  startWebcam();
+});
 
-   async function startWebcam(){
-    try{
-      mediaStream=await navigator.mediaDevices.getUserMedia({video:true,audio:false});
-      video.srcObject=mediaStream;
-    }catch(error){
-      console.error('Error accessing the webcam ',error)
-      alert('Unable to access the webcam.Please ensure your camera is enabled')
+// Handle file input
+photoInput.addEventListener('change', (event) => {
+  file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      photoPreview.innerHTML = `<img src="${e.target.result}" alt="Captured Photo" class="captured-photo">`;
+      proceedButton.disabled = false;
+    };
+    reader.readAsDataURL(file);
+  }
+});
 
+// Capture photo from webcam
+captureButton.addEventListener('click', () => {
+  const canvas = document.createElement('canvas');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  const context = canvas.getContext('2d');
+  context.drawImage(video, 0, 0, canvas.width, canvas.height);
+  const dataURL = canvas.toDataURL('image/jpeg');
+  file = dataURL;
+  photoPreview.innerHTML = `<img src="${dataURL}" alt="Captured Photo" class="captured-photo">`;
+  proceedButton.disabled = false;
+});
+
+// Handle proceed button click
+proceedButton.addEventListener('click', async () => {
+  const formData = new FormData();
+  let blob;
+
+  if (file.startsWith('data:')) {
+    // Convert dataURL to Blob
+    blob = await fetch(file).then((res) => res.blob());
+  } else {
+    // Use the file directly if it's from the file input
+    blob = file;
+  }
+
+  formData.append('file', blob, 'captured-image.jpg');
+  console.log('form being uploaded:', formData);
+
+  try {
+    const response = await fetch('/facedetect', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!response.ok) {
+      const errorResponse = await response.text();
+      console.error('Server error:', errorResponse);
+      throw new Error('Server responded with an error');
     }
-   }
-   //stop webcam feed
-   function stopWebcam(){
-    if(mediaStream){
-      mediaStream.getTracks().forEach(track=>track.stop())
-    }
-   }
 
-   scanButton.addEventListener("click",()=>{
-     
-      //hiding scanning ui
-      
-      scanningUi.style.display='none'
-      //show photo capture ui
-  photoCaptureui.style.display='block';
-  //start web cam feed
- startWebcam();
+    const result = await response.json();
+    console.log(result);
 
-      
-   })
-   var file;
-   photInput.addEventListener('change',(event)=>{
-
-    file=event.target.files[0];
-    if(file){
-      const reader=new fileReader();
-      reader.onload=(e)=>{
-        photoPreview.innerHTML=`<img src="${e.target.result}" alt="Captured Photo" class="captured-photo">`;
-        proceedButton.display=false;
-      }
-      reader.readAsDataURL(file)
-    }
-   });
-
-   captureButton.addEventListener('click',()=>{
-    //Capture photo from webcam
-    const canvas=document.createElement('canvas');
-    canvas.width=video.videoWidth;
-    canvas.height=video.videoHeight;
-    const context=canvas.getContext('2d');
-    context.drawImage(video,0,0,canvas.width,canvas.height);
-    const dataurl=canvas.toDataURL('image/jpeg');
-    file=dataurl
-    photoPreview.innerHTML=`<img src="${dataurl}" alt="Captured photo" class="captured-photo">`
-    proceedButton.disabled=false;
-   })
-   proceedButton.addEventListener('click',async()=>{
-    const formData =new FormData()
-    formData.append("file",file)
-     const response=await fetch('/facedetect',{
-      method:'POST',
-      body:formData
-     })
-    //hide photo capture ui
-
-    photoCaptureui.style.display='none';
-    //show results ui
-    resultsUi.style.display='block';
-    //stop webcam feed
-    startWebcam()
-   })
+    // Hide photo capture UI and show results UI
+    photoCaptureui.style.display = 'none';
+    resultsUi.style.display = 'block';
+    stopWebcam(); // Stop the webcam feed
+  } catch (error) {
+    console.error('Error uploading file:', error);
+    alert('Failed to upload file. Please try again.');
+  }
+});
 
 </script>
 </html>

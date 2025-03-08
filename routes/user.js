@@ -3,6 +3,8 @@ var router = express.Router();
 var productHelper = require("../helper/product-helper");
 var userhelper = require("../helper/user-helpers");
 const { body, validationResult } = require("express-validator");
+var faceapihelper  = require("../helper/face-api-helper");
+const multer = require("multer");
 
 // Middleware to check if user is logged in
 
@@ -14,6 +16,16 @@ const verifyLogged = (req, res, next) => {
     res.status(401).json({ loggedIn: false }); // Respond with JSON indicating not logged in
   }
 };
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); // Save files in the "uploads" folder
+  },
+  filename: (req, file, cb) => {
+    // Use the original filename or a custom name like "captured-image.jpg"
+    cb(null, 'captured-image.jpg');
+  },
+});
+const upload=multer({storage})
 
 // GET home page
 router.get("/", async (req, res, next) => {
@@ -245,7 +257,14 @@ router.get("/ai-individual",verifyLogged,async(req,res)=>{
 
   res.render("user/ai-individual",{user:req.session.user})
 })
-router.post("/facedetect",(req,res)=>{
+router.post("/facedetect",upload.single('file'),(req,res)=>{
+  try {
+    console.log("reached facedetect api");
+    console.log("type of image is "+typeof req.file.path)
+    // faceapihelper.loadfaceapi(req.body.file)
+  } catch (error) {
+    console.log(error)
+  }
  
 })
 

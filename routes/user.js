@@ -245,5 +245,8 @@ router.get("/ai-individual",verifyLogged,async(req,res)=>{
 
   res.render("user/ai-individual",{user:req.session.user})
 })
+router.post("/facedetect",(req,res)=>{
+ 
+})
 
 module.exports = router;

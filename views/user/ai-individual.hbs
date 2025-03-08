@@ -353,9 +353,10 @@
 
       
    })
-
+   var file;
    photInput.addEventListener('change',(event)=>{
-    const file=event.target.files[0];
+
+    file=event.target.files[0];
     if(file){
       const reader=new fileReader();
       reader.onload=(e)=>{
@@ -374,10 +375,17 @@
     const context=canvas.getContext('2d');
     context.drawImage(video,0,0,canvas.width,canvas.height);
     const dataurl=canvas.toDataURL('image/jpeg');
+    file=dataurl
     photoPreview.innerHTML=`<img src="${dataurl}" alt="Captured photo" class="captured-photo">`
     proceedButton.disabled=false;
    })
-   proceedButton.addEventListener('click',()=>{
+   proceedButton.addEventListener('click',async()=>{
+    const formData =new FormData()
+    formData.append("file",file)
+     const response=await fetch('/facedetect',{
+      method:'POST',
+      body:formData
+     })
     //hide photo capture ui
 
     photoCaptureui.style.display='none';

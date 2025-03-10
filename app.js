@@ -11,6 +11,8 @@ var app = express();
 var fileUpload = require("express-fileupload");
 var db = require("./config/connection");
 var session = require("express-session");
+const multer = require("multer");
+
  require("dotenv").config()
 // view engine setup
 app.listen(3000,()=>{

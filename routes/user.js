@@ -4,10 +4,12 @@ var productHelper = require("../helper/product-helper");
 var userhelper = require("../helper/user-helpers");
 const { body, validationResult } = require("express-validator");
 var faceapihelper  = require("../helper/face-api-helper");
-const multer = require("multer");
+const path = require('path');
+const fs = require("fs");
+const { Image } = require("canvas"); // Correct import
+const faceApiHelper = require("../helper/face-api-helper");
 
 // Middleware to check if user is logged in
-
 const verifyLogged = (req, res, next) => {
   if (req.session && req.session.user && req.session.user.Loggedin) {
     next();
@@ -16,16 +18,9 @@ const verifyLogged = (req, res, next) => {
     res.status(401).json({ loggedIn: false }); // Respond with JSON indicating not logged in
   }
 };
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Save files in the "uploads" folder
-  },
-  filename: (req, file, cb) => {
-    // Use the original filename or a custom name like "captured-image.jpg"
-    cb(null, 'captured-image.jpg');
-  },
-});
-const upload=multer({storage})
+
+
+
 
 // GET home page
 router.get("/", async (req, res, next) => {
@@ -257,15 +252,65 @@ router.get("/ai-individual",verifyLogged,async(req,res)=>{
 
   res.render("user/ai-individual",{user:req.session.user})
 })
-router.post("/facedetect",upload.single('file'),(req,res)=>{
+router.post("/facedetect", async (req, res) => {
+  
   try {
-    console.log("reached facedetect api");
-    console.log("type of image is "+typeof req.file.path)
-    // faceapihelper.loadfaceapi(req.body.file)
+    if (!req.files) {
+      console.error("No file received");
+      return res.status(400).json({status:false, error: "No file uploaded" });
+    }
+    const file=req.files.file;
+
+    let username=req.session.user.Name;
+
+
+    //generate  a unique file name
+    const uniqueSuffix=Date.now() + "-" +Math.round(Math.random() *1e9);
+    const fileExtension=path.extname(file.name);
+    const filename=`uploads-${username}-${fileExtension}`;
+
+    //define the upload directory
+      const uploadDir=path.join(__dirname,"../uploads");
+      if(!fs.existsSync(uploadDir)){
+        fs.mkdirSync(uploadDir,{recursive:true})
+
+      }
+
+      //save file to the uploads directory
+      const filePath=path.join(uploadDir,filename)
+      file.mv(filePath,(err)=>{
+        if(err){
+          console.log("error while saving file",err)
+      
+        }
+        console.log("file saved successfully"+filePath);
+       
+      })
+
+      //process the image 
+       const img=new  Image()
+       let result;
+       img.src=fs.readFileSync(filePath)
+       console.log(img)
+       faceApiHelper.loadfaceapi(img).then(async(resp)=>{
+        result=resp;
+        await userhelper.getProductAi(result).then((d)=>{
+          console.log(d.length)
+          console.log(d)
+          if(d.length>0){
+            return res.status(200).json({status:true,data:d})
+          }else{
+            return res.status(404).json({status:false})
+          }
+        }).catch((err)=>{
+          return res.status(404).json({status:false})
+        })
+       })
   } catch (error) {
-    console.log(error)
+    console.error("Error in /facedetect:", error);
+    return res.status(500).json({ error: error});
   }
- 
-})
+});
+
 
 module.exports = router;

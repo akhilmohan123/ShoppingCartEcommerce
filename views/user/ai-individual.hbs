@@ -6,7 +6,6 @@
   <title>AI Face Scan UI</title>
 </head>
 <body>
-   <body>
   <div class="background-image"></div>
   <div class="container">
     <!-- Scanning UI -->
@@ -25,8 +24,7 @@
       </div>
     </div>
 
-    <!-- Photo Capture Ui -->
-
+    <!-- Photo Capture UI -->
     <div id="photo-capture-ui" class="photo-capture-ui" style="display: none;">
       <div class="header">
         <h1>Capture Your Photo</h1>
@@ -38,15 +36,12 @@
         <label for="photo-input" class="photo-upload-button">Upload Photo</label>
 
         <!-- Live Capture Option -->
-
         <button id="capture-button" class="photo-upload-button">Capture Live Photo</button>
 
         <!-- photo preview --->
         <div id="photo-preview" class="photo-preview"></div>
         <button id="proceed-button" class="proceed-button" disabled>Proceed to Result</button>
-
       </div>
-
     </div>
 
     <!-- Results UI -->
@@ -58,54 +53,24 @@
 
       <!-- Dress Recommendations -->
       <div class="results-section">
-        <h2>Dress Recommendations</h2>
+        <h2>Recommendations</h2>
         <div class="recommendations">
-          <div class="item">
-            <img src="https://via.placeholder.com/150x200" alt="Dress 1">
-            <p>Elegant Evening Gown</p>
-            <a href="#" class="buy-button">Buy Now</a>
-          </div>
-          <div class="item">
-            <img src="https://via.placeholder.com/150x200" alt="Dress 2">
-            <p>Casual Summer Dress</p>
-            <a href="#" class="buy-button">Buy Now</a>
-          </div>
-          <div class="item">
-            <img src="https://via.placeholder.com/150x200" alt="Dress 3">
-            <p>Formal Office Wear</p>
-            <a href="#" class="buy-button">Buy Now</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Face Product Recommendations -->
-      <div class="results-section">
-        <h2>Face Product Recommendations</h2>
-        <div class="recommendations">
-          <div class="item">
-            <img src="https://via.placeholder.com/150x200" alt="Product 1">
-            <p>Matte Lipstick - Red</p>
-            <a href="#" class="buy-button">Buy Now</a>
-          </div>
-          <div class="item">
-            <img src="https://via.placeholder.com/150x200" alt="Product 2">
-            <p>Hydrating Face Cream</p>
-            <a href="#" class="buy-button">Buy Now</a>
-          </div>
-          <div class="item">
-            <img src="https://via.placeholder.com/150x200" alt="Product 3">
-            <p>Eyebrow Pencil</p>
-            <a href="#" class="buy-button">Buy Now</a>
-          </div>
+          <!-- Items will be inserted here dynamically -->
         </div>
       </div>
     </div>
-  </div>
 
+    <!-- Spinner -->
+    <div id="spinner" class="spinner" style="display: none;">
+      <div class="loader"></div>
+    </div>
+  </div>
 </body>
+
 <style>
- body{
-    font-family: 'Arial',sans-serif;
+  /* Your existing styles */
+  body {
+    font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
     display: flex;
@@ -115,8 +80,8 @@
     overflow: hidden;
     color: #fff;
     background-color: #000;
- }
- .background-image{
+  }
+  .background-image {
     position: absolute;
     top: 0;
     left: 0;
@@ -126,30 +91,29 @@
     background-size: cover;
     filter: blur(8px) brightness(0.6);
     z-index: -1;
- }
- .container{
-    background-color: rgba(0,0,0,0.7);
+  }
+  .container {
+    background-color: rgba(0, 0, 0, 0.7);
     border-radius: 15px;
     width: 400px;
     padding: 30px;
     text-align: center;
     backdrop-filter: blur(10px);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-
- }
- .header h1{
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  }
+  .header h1 {
     font-size: 24px;
     margin-bottom: 10px;
     color: #fff;
- }
- .header p{
+  }
+  .header p {
     font-size: 14px;
     color: #ccc;
- }
- .scanner-container{
+  }
+  .scanner-container {
     margin: 20px 0;
- }
- .scanner-frame{
+  }
+  .scanner-frame {
     position: relative;
     width: 300px;
     height: 300px;
@@ -157,27 +121,31 @@
     border: 2px dashed rgba(255, 255, 255, 0.5);
     border-radius: 15px;
     overflow: hidden;
-      background-color: rgba(255, 255, 255, 0.1);
- }
- .face-preview{
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  .face-preview {
     width: 100%;
     height: 100%;
     object-fit: cover;
- }
- .scan-overlay{
+  }
+  .scan-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom,rgba(255,255,255,0.1),rgba(255, 255, 255, 0.3));
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.3));
     animation: scan 2s infinite;
- }
- @keyframes scan{
-    0%{top:-100%;}
-    100%{top:100%}
- }
- .scan-button{
+  }
+  @keyframes scan {
+    0% {
+      top: -100%;
+    }
+    100% {
+      top: 100%;
+    }
+  }
+  .scan-button {
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -187,10 +155,9 @@
     cursor: pointer;
     margin-top: 20px;
     transition: background-color 0.3s ease;
-
- }
- .proceed-button{
-   background-color: #007bff;
+  }
+  .proceed-button {
+    background-color: #007bff;
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -199,219 +166,302 @@
     cursor: pointer;
     margin-top: 20px;
     transition: background-color 0.3s ease;
- }
- .scan-button:hover{
+  }
+  .scan-button:hover {
     background-color: #0056b3;
- }
- .results{
+  }
+  .results {
     margin-top: 20px;
- }
- .results h2{
+  }
+  .results h2 {
     font-size: 20px;
     margin-bottom: 10px;
     color: #fff;
- }
- .results p{
+  }
+  .results p {
     font-size: 14px;
     color: #ccc;
- }
- .results-section{
-   margin-top: 30px;
- }
- .results-section h2{
-   font-size: 20px;
-   margin-bottom: 20px;
-   color: #fff;
- }
- .recommendations{
-   display: flex;
-   justify-content: space-around;
-   gap: 20px;
- }
- .item{
-   background-color: rgb(255, 255,255,0.1);
-   border-radius: 10px;
-   padding: 15px;
-   width: 150px;
-   text-align: center;
-   transition: transform 0.3s ease,box-shadow 0.3s ease;
+  }
+  .results-section {
+    margin-top: 30px;
+  }
+  .results-section h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #fff;
+  }
+  .recommendations {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+  }
+  .item {
+    background-color: rgb(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 15px;
+    width: 150px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  }
+  .item img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+  .item p {
+    font-size: 14px;
+    margin: 10px 0;
+    color: #fff;
+  }
+  .buy-button {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 12px;
+    transition: background-color 0.3s ease;
+  }
+  .buy-button:hover {
+    background-color: #0056b3;
+  }
+  #video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .photo-capture-ui {
+    display: none;
+  }
+  .photo-container {
+    margin: 20px 0;
+  }
+  .photo-preview {
+    margin: 20px auto;
+    width: 200px;
+    height: 200px;
+    border: 2px dashed rgba(255, 255, 255, 0.5);
+    border-radius: 15px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  .captured-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .photo-upload-button {
+    cursor: pointer;
+    border-radius: 2px;
+  }
+  .photo-upload-button:hover {
+    background-color: rgb(255, 255, 255, 0.1);
+  }
 
- }
- .item:hover{
-   transform: translateY(-10px);
-   box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+  /* Spinner Styles */
+  .spinner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+  }
 
- }
- .item img{
-   width: 100%;
-   height: auto;
-   border-radius: 10px;
- }
- .item p{
-   font-size: 14px;
-   margin: 10px 0;
-   color: #fff;
- }
- .buy-button{
-   display: inline-block;
-   background-color: #007bff;
-   color: #fff;
-   padding: 8px 15px;
-   border-radius: 20px;
-   text-decoration: none;
-   font-size: 12px;
-   transition: background-color 0.3s ease;
- }
- .buy-button:hover{
-   background-color: #0056b3;
- }
- #video{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
- }
+  .loader {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 2s linear infinite;
+  }
 
- .photo-capture-ui{
-  display: none;
- }
- .photo-container{
-  margin: 20px 0;
- }
-
- .photo-preview{
-  margin: 20px auto;
-  width: 200px;
-  height: 200px;
-  border: 2px dashed rgba(255, 255, 255, 0.5);
-  border-radius: 15px;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(255,255,255,0.1);
- }
- .captured-photo{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
- }
- .photo-upload-button{
-  cursor: pointer;
-  border-radius: 2px;
- }
- .photo-upload-button:hover{
-  background-color: rgb(255, 255,255,0.1);
- }
-
-
- 
- 
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 </style>
+
 <script>
- // DOM Elements
-const scanButton = document.getElementById('scan-button');
-const scanningUi = document.getElementById('scanning-ui');
-const resultsUi = document.getElementById('results-ui');
-const photoCaptureui = document.getElementById('photo-capture-ui');
-const photoInput = document.getElementById('photo-input');
-const photoPreview = document.getElementById('photo-preview');
-const proceedButton = document.getElementById('proceed-button');
-const captureButton = document.getElementById('capture-button');
-const video = document.getElementById('video');
-let mediaStream = null;
-let file = null;
+  document.addEventListener("DOMContentLoaded", function () {
+    // DOM Elements
+    const scanButton = document.getElementById('scan-button');
+    const scanningUi = document.getElementById('scanning-ui');
+    const resultsUi = document.getElementById('results-ui');
+    const photoCaptureui = document.getElementById('photo-capture-ui');
+    const photoInput = document.getElementById('photo-input');
+    const photoPreview = document.getElementById('photo-preview');
+    const proceedButton = document.getElementById('proceed-button');
+    const captureButton = document.getElementById('capture-button');
+    const video = document.getElementById('video');
+    const spinner = document.getElementById('spinner');
+    let mediaStream = null;
+    let file = null;
 
-// Start webcam feed
-async function startWebcam() {
-  try {
-    mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
-    video.srcObject = mediaStream;
-  } catch (error) {
-    console.error('Error accessing the webcam:', error);
-    alert('Unable to access the webcam. Please ensure your camera is enabled.');
-  }
-}
-
-// Stop webcam feed
-function stopWebcam() {
-  if (mediaStream) {
-    mediaStream.getTracks().forEach(track => track.stop());
-  }
-}
-
-// Switch to photo capture UI
-scanButton.addEventListener('click', () => {
-  scanningUi.style.display = 'none';
-  photoCaptureui.style.display = 'block';
-  startWebcam();
-});
-
-// Handle file input
-photoInput.addEventListener('change', (event) => {
-  file = event.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      photoPreview.innerHTML = `<img src="${e.target.result}" alt="Captured Photo" class="captured-photo">`;
-      proceedButton.disabled = false;
-    };
-    reader.readAsDataURL(file);
-  }
-});
-
-// Capture photo from webcam
-captureButton.addEventListener('click', () => {
-  const canvas = document.createElement('canvas');
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
-  const context = canvas.getContext('2d');
-  context.drawImage(video, 0, 0, canvas.width, canvas.height);
-  const dataURL = canvas.toDataURL('image/jpeg');
-  file = dataURL;
-  photoPreview.innerHTML = `<img src="${dataURL}" alt="Captured Photo" class="captured-photo">`;
-  proceedButton.disabled = false;
-});
-
-// Handle proceed button click
-proceedButton.addEventListener('click', async () => {
-  const formData = new FormData();
-  let blob;
-
-  if (file.startsWith('data:')) {
-    // Convert dataURL to Blob
-    blob = await fetch(file).then((res) => res.blob());
-  } else {
-    // Use the file directly if it's from the file input
-    blob = file;
-  }
-
-  formData.append('file', blob, 'captured-image.jpg');
-  console.log('form being uploaded:', formData);
-
-  try {
-    const response = await fetch('/facedetect', {
-      method: 'POST',
-      body: formData,
-    });
-
-    if (!response.ok) {
-      const errorResponse = await response.text();
-      console.error('Server error:', errorResponse);
-      throw new Error('Server responded with an error');
+    // Start webcam feed
+    async function startWebcam() {
+      try {
+        mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+        video.srcObject = mediaStream;
+      } catch (error) {
+        console.error('Error accessing the webcam:', error);
+        alert('Unable to access the webcam. Please ensure your camera is enabled.');
+      }
     }
 
-    const result = await response.json();
-    console.log(result);
+    // Stop webcam feed
+    function stopWebcam() {
+      if (mediaStream) {
+        mediaStream.getTracks().forEach(track => track.stop());
+      }
+    }
 
-    // Hide photo capture UI and show results UI
-    photoCaptureui.style.display = 'none';
-    resultsUi.style.display = 'block';
-    stopWebcam(); // Stop the webcam feed
-  } catch (error) {
-    console.error('Error uploading file:', error);
-    alert('Failed to upload file. Please try again.');
+    // Show spinner
+    function showSpinner() {
+      spinner.style.display = 'flex';
+    }
+
+    // Hide spinner
+    function hideSpinner() {
+      spinner.style.display = 'none';
+    }
+
+    // Switch to photo capture UI
+    scanButton.addEventListener('click', () => {
+      scanningUi.style.display = 'none';
+      photoCaptureui.style.display = 'block';
+      startWebcam();
+    });
+
+    // Handle file input
+    photoInput.addEventListener('change', (event) => {
+      file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          photoPreview.innerHTML = `<img src="${e.target.result}" alt="Captured Photo" class="captured-photo">`;
+          proceedButton.disabled = false;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Capture photo from webcam
+    captureButton.addEventListener('click', () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const context = canvas.getContext('2d');
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const dataURL = canvas.toDataURL('image/jpeg');
+      file = dataURL;
+      photoPreview.innerHTML = `<img src="${dataURL}" alt="Captured Photo" class="captured-photo">`;
+      proceedButton.disabled = false;
+    });
+
+    // Handle proceed button click
+    proceedButton.addEventListener('click', async () => {
+      showSpinner(); // Show spinner while fetching data
+      const formData = new FormData();
+      let blob;
+      if (typeof file == 'string') {
+        // Convert dataURL to Blob
+        blob = await fetch(file).then((res) => res.blob());
+      } else {
+        // Use the file directly if it's from the file input
+        blob = file;
+      }
+
+      formData.append('file', blob, 'captured-image.jpg');
+      
+      try {
+        $.ajax({
+          url: "/facedetect",
+          type: "POST",
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function(response) {
+            console.log("Success:", response);
+            hideSpinner(); // Hide spinner when done
+
+            const data = response.data; // The array of product objects
+            const recommendationsContainer = document.querySelector('.results-section .recommendations');
+            
+            // Clear previous recommendations
+            recommendationsContainer.innerHTML = '';
+
+            // Loop through the data array to create a new item for each product
+            data.forEach(item => {
+              const itemElement = document.createElement('div');
+              itemElement.classList.add('item');
+              
+              // Populate the item element with the product details
+              itemElement.innerHTML = `
+                <img src="/product-images/${item._id}.jpg"alt="${item.Name}">
+                <p>${item.Name}</p>
+                <p><strong>Category:</strong> ${item.Category}</p>
+                <p><strong>Price:</strong> $${item.Price}</p>
+                <p>${item.Description}</p>
+                <button onclick="handlecart(${item._id})" class="buy-button">Add to Cart</button>
+              `;
+              
+              // Append the item element to the recommendations container
+              recommendationsContainer.appendChild(itemElement);
+            });
+
+            // Show the results UI and hide the capture UI
+            photoCaptureui.style.display = 'none';
+            resultsUi.style.display = 'block';
+            stopWebcam(); // Stop the webcam feed
+          },
+
+          error: function(xhr, status, error) {
+            console.log(error);
+            hideSpinner(); // Hide spinner on error
+          }
+        });
+      } catch (error) {
+        console.error(error);
+        hideSpinner(); // Hide spinner on error
+      }
+    });
+  });
+  function handlecart(id){
+    alert("function called success")
+     $.ajax({
+          url: `/cart/${id}`,
+          type: "GET",
+          processData: false,
+          contentType: false,
+          success: function(response) {
+            console.log("Success:", response);
+           
+           alert("ITEM ADDED")
+           
+          },
+
+          error: function(xhr, status, error) {
+            console.log(error);
+         
+          }
+        });
+     
+  
   }
-});
-
 </script>
+
 </html>

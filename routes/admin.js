@@ -29,9 +29,11 @@ router.post("/login", (req, res) => {
 
   if (username === adminCredentials.username && password === adminCredentials.password) {
     req.session.adminLoggedIn = true; // Set a session variable to track admin login status
+    console.log("true")
     res.redirect("/admin"); // Redirect to the admin dashboard or products page
   } else {
     res.render("admin/login", { error: "Invalid username or password" }); // Show error if login fails
+    console.log("false")
   }
 });
 
@@ -39,6 +41,7 @@ router.post("/login", (req, res) => {
 router.get("/",verifyAdmin, async (req, res, next) => {
   try {
     let result = await productHelper.getAllproduct();
+    console.log(result)
     res.render("admin/view-product", { result, admin: true });
   } catch (err) {
     next(err); // Pass errors to the error handler

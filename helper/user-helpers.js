@@ -418,4 +418,52 @@ module.exports = {
         .catch(err => reject(err));
     });
   },
+  getProductAi: (resp) => {
+    console.log(resp);
+    let age;
+    let gender;
+  
+    return new Promise((resolve, reject) => {
+      // Loop through resp and get the first item (assuming resp is an array)
+      for (const item of resp) {
+        // Only set the age and gender once, from the first valid item
+        if (item.age && item.gender) {
+          age = item.age;
+          gender = item.gender;
+          break; // Exit loop after finding the first valid item
+        }
+      }
+  
+      if (age === undefined || gender === undefined) {
+        reject("Age or gender not found in the response.");
+        return;
+      }
+  
+      // Round age and convert it to a string
+      age = Math.round(age);
+      age = age.toString();
+      console.log("Age: " + age);
+      console.log("Gender: " + gender);
+      console.log("Executing the query...");
+  
+      db.get().collection('products')
+  .find({ 
+    gender: "male",  // Match products where gender is male
+    age: { $exists: true }  // Ensure age field exists, if needed
+  })
+  .toArray()
+  .then((products) => {
+    console.log("Filtered Products: ", products);
+    resolve(products);
+  })
+  .catch((err) => {
+    console.error("Error fetching products:", err);
+    reject(err);
+  });
+    
+    });
+  }
+  
+   
+ 
 };

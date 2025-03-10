@@ -58,6 +58,7 @@
           <!-- Items will be inserted here dynamically -->
         </div>
       </div>
+      <button class="gobackbtn" onclick="handlegoback()">Click Here to go back</button>
     </div>
 
     <!-- Spinner -->
@@ -80,6 +81,18 @@
     overflow: hidden;
     color: #fff;
     background-color: #000;
+  }
+  .gobackbtn{
+    display: inline-block;
+    background-color: #d50707;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 12px;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+    cursor: pointer;
   }
   .background-image {
     position: absolute;
@@ -416,7 +429,7 @@
                 <p><strong>Category:</strong> ${item.Category}</p>
                 <p><strong>Price:</strong> $${item.Price}</p>
                 <p>${item.Description}</p>
-                <button onclick="handlecart(${item._id})" class="buy-button">Add to Cart</button>
+                <button id="addtocart" data-id="${item._id}" onclick="handlecart('${item._id}',this)" class="buy-button">Add to Cart</button>
               `;
               
               // Append the item element to the recommendations container
@@ -441,7 +454,11 @@
     });
   });
   function handlecart(id){
-    alert("function called success")
+    let button=document.querySelector(`button[data-id='${id}']`)
+    if (button){
+      button.innerText='Added'
+    }
+    
      $.ajax({
           url: `/cart/${id}`,
           type: "GET",
@@ -450,7 +467,6 @@
           success: function(response) {
             console.log("Success:", response);
            
-           alert("ITEM ADDED")
            
           },
 
@@ -461,6 +477,9 @@
         });
      
   
+  }
+  function handlegoback(){
+   window.location.href = "/";
   }
 </script>
 

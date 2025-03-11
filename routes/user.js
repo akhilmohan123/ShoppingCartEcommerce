@@ -60,7 +60,9 @@ router.get("/", async (req, res, next) => {
 
 // GET login page
 router.get("/login", (req, res) => {
-  res.render("user/login");
+  const errorMessage = req.session.Loginerr; // Get error from session
+  req.session.Loginerr = null; // Clear it after fetching
+  res.render("user/login", { Loginerr: errorMessage });
 });
 
 // GET signup page
@@ -92,10 +94,12 @@ router.post("/login", async (req, res, next) => {
     if (response.status) {
       req.session.user = response.user;
       req.session.user.Loggedin = true;
+      req.session.userLoginerr=null
       res.redirect("/");
     } else {
     
       req.session.userLoginerr = "Invalid username or password";
+      console.log(req.session.userLoginerr)
       res.redirect("/login",);
     }
   } catch (err) {

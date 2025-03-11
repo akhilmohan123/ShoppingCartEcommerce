@@ -1,10 +1,12 @@
  <div class="container">
         <div class="login-container">
             <h2 class="text-center mb-4">Login</h2>
+              {{#if Loginerr}}
+                 <div id="errorNotification" class="alert alert-danger">
+                   <i class="fas fa-exclamation-circle"></i> {{Loginerr}}
+                </div>
+              {{/if}}
             <form action="/login" method="post">
-                {{#if Loginerr}}
-                <p class="error">{{Loginerr}}</p>
-                {{/if}}
                 <div class="mb-3">
                     <label for="email" class="form-label"><i class="fas fa-envelope form-icon"></i>Email address</label>
                     <input type="email" class="form-control" id="email" name="Email" placeholder="Enter your email" required>
@@ -75,4 +77,30 @@
             text-align: center;
             margin-top: 20px;
         }
+        .alert {
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    display: none; /* Initially hidden */
+}
+
+.alert-danger {
+    background-color: #dc3545;
+    color: white;
+}
     </style>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const errorNotification = document.getElementById("errorNotification");
+        if (errorNotification) {
+            // Show the error notification with fade effect
+            errorNotification.style.display = "block";
+
+            // Automatically hide the error notification after 5 seconds
+            setTimeout(() => {
+                errorNotification.style.display = "none";
+            }, 5000);
+        }
+    });
+</script>

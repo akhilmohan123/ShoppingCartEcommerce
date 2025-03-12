@@ -60,8 +60,8 @@ router.get("/", async (req, res, next) => {
 
 // GET login page
 router.get("/login", (req, res) => {
-  const errorMessage = req.session.Loginerr; // Get error from session
-  req.session.Loginerr = null; // Clear it after fetching
+  const errorMessage = req.session.userLoginerr; // Get error from session
+  req.session.userLoginerr = null; // Clear it after fetching
   res.render("user/login", { Loginerr: errorMessage });
 });
 

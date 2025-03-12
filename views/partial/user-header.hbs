@@ -1,4 +1,149 @@
 <head>
+    <!-- Bootstrap and Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+</head>
+
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-blue">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01"
+                aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                <a class="navbar-brand text-white" href="#">E cart</a>
+                <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link text-white" href="/">Products</a>
+                    </li>
+                    {{#if user}}
+                    <li class="nav-item">
+                        <a href="/cart" class="nav-link text-white position-relative me-3">
+                            <i class="fas fa-shopping-cart fa-lg"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">
+                                {{count}}
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/order">Orders</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/ai-style">AI Stylist</a>
+                    </li>
+                    {{/if}}
+                </ul>
+
+                <!-- User Account Dropdown -->
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user-circle fa-lg"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                        <li><span class="dropdown-item-text fw-bold" id="username">Guest</span></li>
+                        <li><hr class="dropdown-divider"></li>
+                        {{#if user}}
+                        <li><a class="dropdown-item" href="#" id="logoutOption">Logout</a></li>
+                        {{else}}
+                        <li><a class="dropdown-item" href="/login" id="loginOption">Login</a></li>
+                        {{/if}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<style>
+    /* Navbar Fixes */
+    nav {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background-color: #007bff !important;
+        padding: 10px 0;
+    }
+
+    /* Dropdown Button */
+    #dropdownMenuButton {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 7px 10px;
+        border-radius: 5px;
+        margin-top: 5px;
+    }
+
+    /* Hover effect */
+    #dropdownMenuButton:hover {
+        background-color: #0056b3;
+    }
+
+    /* Dropdown Styling */
+    .dropdown-menu {
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        min-width: 180px;
+        right: 0;
+        left: auto;
+        margin-top: 5px;
+    }
+
+    /* Dropdown Items */
+    .dropdown-menu .dropdown-item {
+        color: #333;
+        padding: 10px 15px;
+        font-size: 16px;
+        transition: background 0.3s ease-in-out;
+    }
+
+    /* Hover effect */
+    .dropdown-menu .dropdown-item:hover {
+        background-color: #007bff;
+        color: white;
+    }
+
+    /* Style the user icon */
+    .fa-user-circle {
+        margin-right: 8px;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Set the username in the dropdown
+        const userName = "{{user.Name}}" || "Guest";
+        document.getElementById("username").textContent = userName;
+
+        // Logout function
+        function logoutUser(event) {
+            event.preventDefault(); // Prevent default anchor action
+            fetch("/logout", { method: "POST" })
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = "/";
+                    } else {
+                        alert("Error logging out. Please try again.");
+                    }
+                })
+                .catch(error => console.error("Logout failed:", error));
+        }
+
+        // Attach logout event if user is logged in
+        const logoutButton = document.getElementById("logoutOption");
+        if (logoutButton) {
+            logoutButton.addEventListener("click", logoutUser);
+        }
+    });
+</script>
+
+
+{{!-- <head>
     <!-- Other head elements -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -108,5 +253,5 @@
 
 
     
-</style>
+</style> --}}
 

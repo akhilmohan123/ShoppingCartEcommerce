@@ -122,6 +122,18 @@ router.get("/cart/:id", verifyLogged, async (req, res, next) => {
 // GET view cart
 router.get("/view-cart", verifyLogged, async (req, res, next) => {
   try {
+    let user = req.session.user;
+
+    let coun = 0;
+    if (user) {
+       await userhelper.cartCount(user._id).then((res)=>{
+        coun=res;
+        console.log("count is "+coun)
+       }).catch((err)=>{
+         coun=0
+       })
+   
+    }
     let products = await userhelper.getCart(req.session.user._id);
     let total = await userhelper.totalprice(req.session.user._id);
     console.log(products)
@@ -130,6 +142,7 @@ router.get("/view-cart", verifyLogged, async (req, res, next) => {
       products,
       user: req.session.user._id,
       total,
+      coun
     });
   } catch (err) {
     console.log(err)

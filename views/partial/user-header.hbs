@@ -1,8 +1,6 @@
 <head>
     <!-- Bootstrap and Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
+
 </head>
 
 <header>
@@ -21,10 +19,11 @@
                     </li>
                     {{#if user}}
                     <li class="nav-item">
-                        <a href="/cart" class="nav-link text-white position-relative me-3">
+                        <a href="/view-cart" class="nav-link text-white position-relative me-3">
+                       
                             <i class="fas fa-shopping-cart fa-lg"></i>
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">
-                                {{count}}
+                            <span class="position-absolute top-1 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">
+                               {{coun}}
                             </span>
                         </a>
                     </li>
@@ -38,21 +37,23 @@
                 </ul>
 
                 <!-- User Account Dropdown -->
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-user-circle fa-lg"></i>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                        <li><span class="dropdown-item-text fw-bold" id="username">Guest</span></li>
-                        <li><hr class="dropdown-divider"></li>
-                        {{#if user}}
-                        <li><a class="dropdown-item" href="#" id="logoutOption">Logout</a></li>
-                        {{else}}
-                        <li><a class="dropdown-item" href="/login" id="loginOption">Login</a></li>
-                        {{/if}}
-                    </ul>
-                </div>
+               <!-- User Account Dropdown -->
+<div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-user-circle fa-lg"></i>
+    </button>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+        <li><span class="dropdown-item-text fw-bold" id="username">Guest</span></li>
+        <li><hr class="dropdown-divider"></li>
+        {{#if user}}
+        <li><a class="dropdown-item" href="#" id="logoutOption">Logout</a></li>
+        {{else}}
+        <li><a class="dropdown-item" href="/login" id="loginOption">Login</a></li>
+        {{/if}}
+    </ul>
+</div>
+
             </div>
         </div>
     </nav>
@@ -66,6 +67,7 @@
         z-index: 1000;
         background-color: #007bff !important;
         padding: 10px 0;
+        width: 100%; !important
     }
 
     /* Dropdown Button */

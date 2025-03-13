@@ -29,22 +29,25 @@
               <td class="text-white">
                 <h5>{{this.product.Description}}</h5>
               </td>
-              <td>
-                <button class="btn btn-outline-danger btn-sm mr-2" 
-                        onclick="Change('{{this._id}}', '{{this.product._id}}', '{{../user}}', -1)">
-                  <i class="fas fa-minus ">-</i>
-                </button>
-                <span id="{{this.product._id}}" class="mx-2 font-weight-bold mt-4">{{this.quantity}}</span>
-                <button class="btn btn-outline-success btn-sm mt-2" 
-                        onclick="Change('{{this._id}}', '{{this.product._id}}', '{{../user}}', 1)">
-                  <i class="fas fa-plus">+</i>
-                </button>
-              </td>
+           <td>
+  <div class="d-flex align-items-center">
+    <button class="btn btn-outline-danger btn-sm" 
+            onclick="Change('{{this._id}}', '{{this.product._id}}', '{{../user}}', -1)">
+      <i class="fas fa-minus"></i>
+    </button>
+    <span id="{{this.product._id}}" class="mx-3 font-weight-bold">{{this.quantity}}</span>
+    <button class="btn btn-outline-success btn-sm" 
+            onclick="Change('{{this._id}}', '{{this.product._id}}', '{{../user}}', 1)">
+      <i class="fas fa-plus"></i>
+    </button>
+  </div>
+</td>
+
               <td class="font-weight-bold text-white">₹{{this.product.Price}}</td>
               <td>
                 <button class="btn btn-danger btn-sm" 
                         onclick="Change('{{this._id}}', '{{this.product._id}}', '{{../user}}', -{{this.quantity}})">
-                  <i class="fas fa-trash-alt">Remove</i>
+                  <i class="fas fa-trash-alt" >  Remove</i>
                 </button>
               </td>
             </tr>
@@ -100,19 +103,55 @@
 </script>
 
 <style>
-   .navbar {
-            background-color: #1a283e;
-            padding: 0.5rem 1rem;
-        }
-        .navbar-brand {
-            color: #fff;
-            font-weight: bold;
-            font-size: 1.5rem;
-        }
-        nav{
-          height: 50px;
-        }
-        .card{
-          background-color: rgb(20, 20, 20);
-        }
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+}
+
+.table td {
+    vertical-align: middle !important;
+}
+
+   /* Ensure table has a dark background */
+.table {
+   background-color: #72aae6 !important;
+    color: white !important;
+}
+
+/* Table header should be dark */
+.thead-dark th {
+ background-color: #72aae6 !important;
+    color: white !important;
+}
+
+/* Ensure table row text is always white */
+.table tbody tr td {
+    color: white !important;
+}
+
+/* Prevent Bootstrap hover effect */
+.table-hover tbody tr:hover {
+   background-color: #72aae6 !important;/* Slightly darker but not white */
+}
+
+/* Remove Bootstrap default white background */
+.table thead, .table tbody, .table tfoot, .table tr, .table td, .table th {
+   background-color: #72aae6 !important; !important;
+    border-color: rgba(255, 255, 255, 0.1) !important; /* Light border for visibility */
+}
+
+/* Prevent buttons from changing colors on hover */
+.btn:hover {
+    opacity: 0.9;
+    background-color: inherit !important;
+    color: inherit !important;
+}
+
+/* Card background fix */
+.card {
+   background-color: #72aae6 !important; !important;
+}
+
 </style>

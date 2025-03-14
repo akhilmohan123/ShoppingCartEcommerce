@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ecommerce</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
     <style>
-        body {
+        .body {
             background-color: #f1f3f6;
             font-family: 'Roboto', sans-serif;
+            height: 100%;
+            width: 100%;
         }
          nav{
           height: 50px;
@@ -111,8 +106,7 @@
 
 
     </style>
-</head>
-<body>
+
     <!--nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Ecommerce</a>
@@ -140,7 +134,8 @@
         </div>
     </div>
 </nav> --}}
-
+<section>
+    <div class="body">
   <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
         <div class="carousel-item active">
@@ -177,12 +172,10 @@
         {{/each}}
     </div>
 </div>
-
-
+</div>
+</section>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-
     <script>
-
         function handleOnclick(id){
          $.ajax({
             url: `/product-individual/${id}`,
@@ -197,5 +190,4 @@
         });
         }
     </script>
-</body>
-</html>
+

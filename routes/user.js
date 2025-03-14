@@ -49,8 +49,8 @@ router.get("/", async (req, res, next) => {
           console.log(error)
         }
       })
-
-    res.render("user/view-products", { data, user, coun });
+    const flag=true
+    res.render("user/view-products", { data, user, coun,flag})
   } catch (err) {
     console.log("error from the path")
     next(err); // Pass errors to the error handler
@@ -123,7 +123,7 @@ router.get("/cart/:id", verifyLogged, async (req, res, next) => {
 router.get("/view-cart", verifyLogged, async (req, res, next) => {
   try {
     let user = req.session.user;
-
+    const flag=false
     let coun = 0;
     if (user) {
        await userhelper.cartCount(user._id).then((res)=>{
@@ -142,14 +142,18 @@ router.get("/view-cart", verifyLogged, async (req, res, next) => {
       products,
       user: req.session.user._id,
       total,
-      coun
+      coun,
+      flag
     });
   } catch (err) {
     console.log(err)
     res.render("user/view-cart",{
       products:[],
       user:req.session.user,
-      total:0
+      total:0,
+      coun,
+      flag
+   
     })
     //  next(err); // Pass errors to the error handler
   }
@@ -158,6 +162,7 @@ router.get("/view-cart", verifyLogged, async (req, res, next) => {
 // POST change product quantity
 router.post("/change-product-quantity", async (req, res, next) => {
   try {
+    
     let response = await userhelper.changeProductQuantity(req.body);
     response.total = await userhelper.totalprice(req.body.user);
     res.json(response);
@@ -176,8 +181,20 @@ router.get("/logout", (req, res) => {
 // GET place order
 router.get("/place-order", verifyLogged, async (req, res, next) => {
   try {
+    let user = req.session.user;
+    const flag=false
+    let coun = 0;
+    if (user) {
+       await userhelper.cartCount(user._id).then((res)=>{
+        coun=res;
+        console.log("count is "+coun)
+       }).catch((err)=>{
+         coun=0
+       })
+   
+    }
     let total = await userhelper.totalprice(req.session.user._id);
-    res.render("user/place-order", { total, user: req.session.user });
+    res.render("user/place-order", { total, user: req.session.user,coun,flag})
   } catch (err) {
     next(err); // Pass errors to the error handler
   }
@@ -186,6 +203,7 @@ router.get("/place-order", verifyLogged, async (req, res, next) => {
 // POST place order
 router.post("/place-order", verifyLogged, async (req, res, next) => {
   try {
+    const flag=false
     let products = await userhelper.productlist(req.body.userId);
     let total = await userhelper.totalprice(req.body.userId);
     let orderid = await userhelper.placeOrder(req.body, products, total);
@@ -209,6 +227,18 @@ router.get("/order-success", verifyLogged, (req, res) => {
 // GET order
 router.get("/order", verifyLogged, async (req, res, next) => {
   try {
+    let user = req.session.user;
+    const flag=false
+    let coun = 0;
+    if (user) {
+       await userhelper.cartCount(user._id).then((res)=>{
+        coun=res;
+        console.log("count is "+coun)
+       }).catch((err)=>{
+         coun=0
+       })
+   
+    }
     console.log("order api is called")
     let orders = await userhelper.vieworders(req.session.user._id);
     console.log(orders)
@@ -221,7 +251,7 @@ router.get("/order", verifyLogged, async (req, res, next) => {
   //   order.forEeach((product)=>{
   //     console.log(product.name)
   //   })
-  res.render("user/order", { orders, productIds, user: req.session.user });
+  res.render("user/order", { orders, productIds, user: req.session.user,coun ,flag});
   }
     // Pass orders and product IDs to the view
    catch (err) {
@@ -230,11 +260,22 @@ router.get("/order", verifyLogged, async (req, res, next) => {
 });
 router.get("/viewproduct/:productId", verifyLogged, async (req, res, next) => {
   try {
+    let user = req.session.user;
+    const flag=false
+  let coun = 0;
+  if (user) {
+     await userhelper.cartCount(user._id).then((res)=>{
+      coun=res;
+      console.log("count is "+coun)
+     }).catch((err)=>{
+       coun=0
+     })
+    }
     const productId = req.params.productId;
     const product = await userhelper.getProductById(productId);
     console.log(product);
     if (product) {
-      res.render("user/product-details", { product, user: req.session.user });
+      res.render("user/product-details", { product, user: req.session.user,coun ,flag});
     } else {
       res.status(404).send("Product not found");
     }
@@ -255,19 +296,53 @@ router.post("/verify-payment", verifyLogged, async (req, res, next) => {
 });
 
 router.get("/product-individual/:id",verifyLogged,async(req,res)=>{
+  let user = req.session.user;
+  const flag=false
+  let coun = 0;
+  if (user) {
+     await userhelper.cartCount(user._id).then((res)=>{
+      coun=res;
+      console.log("count is "+coun)
+     }).catch((err)=>{
+       coun=0
+     })
+    }
   const id=req.params.id
     let products=await userhelper.getProductById(id)
     
     res.render('user/product',{products,
       user: req.session.user._id,
+      coun
+      ,flag
     })
 })
 router.get("/ai-style",verifyLogged,async(req,res)=>{
-  res.render('user/ai-style',{user:req.session.user})
+  let user = req.session.user;
+  const flag=false
+  let coun = 0;
+  if (user) {
+     await userhelper.cartCount(user._id).then((res)=>{
+      coun=res;
+      console.log("count is "+coun)
+     }).catch((err)=>{
+       coun=0
+     })
+    }
+  res.render('user/ai-style',{user:req.session.user,coun,flag})
 })
 router.get("/ai-individual",verifyLogged,async(req,res)=>{
-
-  res.render("user/ai-individual",{user:req.session.user})
+  let user = req.session.user;
+  const flag=false
+  let coun = 0;
+  if (user) {
+     await userhelper.cartCount(user._id).then((res)=>{
+      coun=res;
+      console.log("count is "+coun)
+     }).catch((err)=>{
+       coun=0
+     })
+    }
+  res.render("user/ai-individual",{user:req.session.user,coun,flag})
 })
 router.post("/facedetect", async (req, res) => {
   

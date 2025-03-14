@@ -1,5 +1,10 @@
 <!-- views/user/product-details.hbs or .ejs -->
 <section class="container mt-5">
+       <div class="body">
+        <div class="success-notification">
+  <span class="close-button">&times;</span>
+  <p>Success! Your action was completed successfully.</p>
+</div>
     <div class="card shadow-lg p-4 rounded-lg">
         <h1 class="text-center mb-4 text-primary">Product Details</h1>
         <div class="row align-items-center">
@@ -36,23 +41,82 @@
     h1, h2 {
         font-family: 'Poppins', sans-serif;
     }
+    .success-notification {
+  padding: 15px;
+  background-color: #4CAF50; /* Green */
+  color: white;
+  border-radius: 5px;
+  position: fixed; /* Or absolute, depending on your layout */
+  top: 20px; /* Adjust as needed */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000; /* Ensure it appears on top */
+  display: none; /* Initially hidden */
+}
+
+.success-notification .close-button {
+  float: right;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.success-notification .close-button:hover {
+  color: black;
+}
+
+/* Optional: Add animation for showing/hiding */
+.success-notification.show {
+  display: block; /* Or visibility: visible, depending on your animation */
+}
 </style>
 <script>
-function handleclick(id){
+document.addEventListener("DOMContentLoaded", function () {
+    const notification = document.querySelector('.success-notification');
+    const closeButton = document.querySelector('.close-button');
 
-         $.ajax({
-            url: `/cart/${id}`,
-            method: 'GET',  // Capitalize 'POST' (though lowercase 'post' still works) // Ensures proper JSON formatting
-            success: function(response) {
-               alert("Product added successfully")
-            },
-            error: function(xhr, status, error) {
-                alert("Something went wrong please try again later....")
-            }
-        });
+    function showNotification() {
+        console.log("showNotification called"); // Debugging log
+        if (!notification) {
+            console.error("Notification element not found!");
+            return;
         }
+        notification.classList.add('show');
+        setTimeout(hideNotification, 3000); // Auto-hide after 3 seconds
+    }
 
+    function hideNotification() {
+        if (notification) {
+            notification.classList.remove('show');
+        }
+    }
 
+    if (closeButton) {
+        closeButton.addEventListener('click', hideNotification);
+    } else {
+        console.error("Close button not found!");
+    }
 
+    function handleclick(id) {
+        console.log("handleclick called with ID:", id); // Debugging log
+        fetch(`/cart/${id}`, {
+            method: 'GET',
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log("Product added successfully");
+                showNotification();
+                alert("Product added successfully");
+            } else {
+                throw new Error("Something went wrong...");
+            }
+        })
+        .catch(error => {
+            console.error("AJAX Error:", error);
+            alert("Something went wrong, please try again later...");
+        });
+    }
 
+    // Make the function globally accessible
+    window.handleclick = handleclick;
+});
 </script>

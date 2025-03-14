@@ -1,6 +1,10 @@
 
 <section>
     <div class="container mt-5">
+              <div class="success-notification">
+  <span class="close-button">&times;</span>
+  <p>Product added to Cart Successfully</p>
+</div>
         <div class="product-container">
             <!-- Image Section -->
             <div class="image-div">
@@ -20,6 +24,33 @@
 </section>
 
 <style>
+    .success-notification {
+  padding: 15px;
+  background-color: #4CAF50; /* Green */
+  color: white;
+  border-radius: 5px;
+  position: fixed; /* Or absolute, depending on your layout */
+  top: 20px; /* Adjust as needed */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000; /* Ensure it appears on top */
+  display: none; /* Initially hidden */
+}
+
+.success-notification .close-button {
+  float: right;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.success-notification .close-button:hover {
+  color: black;
+}
+
+/* Optional: Add animation for showing/hiding */
+.success-notification.show {
+  display: block; /* Or visibility: visible, depending on your animation */
+}
   
     /* Product Container */
     .product-container {
@@ -63,3 +94,50 @@
     }
 
 </style>
+<script>
+     const notification = document.querySelector('.success-notification');
+    const closeButton = document.querySelector('.close-button');
+
+    function showNotification() {
+        console.log("showNotification called"); // Debugging log
+        if (!notification) {
+            console.error("Notification element not found!");
+            return;
+        }
+        notification.classList.add('show');
+        setTimeout(hideNotification, 3000); // Auto-hide after 3 seconds
+    }
+
+    function hideNotification() {
+        if (notification) {
+            notification.classList.remove('show');
+        }
+    }
+    function addtocart(proid) {
+  $.ajax({
+    url: "/cart/" + proid,
+    method: "get",
+    success: (response) => {
+      console.log("Server response:", response); // Debugging line
+      if (response.status) {
+        let count = $("#cart-count").html();
+        count = parseInt(count) + 1;
+
+        $("#cart-count").html(count);
+        showNotification()
+        
+      }
+    },
+    error: (xhr, status, error) => {
+      if (xhr.status === 401) {
+        window.location.href = "/login"; // Redirect to login page
+      } else {
+        console.error("Error:", error);
+      }
+    },
+  });
+}
+
+
+
+</script>

@@ -1,43 +1,59 @@
 <section>
-    <div class="container">
-        <div class="row">
-            <a href="/admin/add-product"class="btn btn-success ml-auto">Add Product</a>
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h3 class="text-primary">Manage Products</h3>
+            <a href="/admin/add-product" class="btn btn-success"><i class="fas fa-plus"></i> Add Product</a>
         </div>
-<table class="table"id="tabledata">
-  <thead>
-    <tr>
-      <th scope="col">No</th>
-      <th scope="col">Name</th>
-      <th scope="col">Category</th>
-      <th scope="col">Price</th>
-      <th scope="col">Description</th>
-      <th scope="col">image</th>
-      <th scope="col"><option value=""></option></th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each result}}
-    <tr>
-      <th scope="row">1</th>
-      <td>{{this.Name}}</td>
-      <td>{{this.Category}}</td>
-      <td>{{this.Price}}</td>
-      <td>{{this.Description}}</td>
-      <td><img style="width:50px;height:50px" src="/product-images/{{this._id}}.jpg"alt=""></td>
-      <td>
-        <a href="/admin/edit-product/{{this._id}}" class="btn btn-success">Edit</a>
 
-        <a href="/admin/delete-product/{{this._id}}" class="btn btn-danger" onClick="return confirm('Are you sure?')">Delete</a>
-      </td>
-    </tr>
-  {{/each}}
-  </tbody>
-</table>
-</div>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered text-center align-middle" id="tabledata">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each result}}
+                    <tr>
+                        <th scope="row">{{@index}}</th>
+                        <td>{{this.Name}}</td>
+                        <td>{{this.Category}}</td>
+                        <td>₹{{this.Price}}</td>
+                        <td class="text-truncate" style="max-width: 200px;">{{this.Description}}</td>
+                        <td>
+                            <img src="/product-images/{{this._id}}.jpg" alt="{{this.Name}}" class="rounded" style="width: 50px; height: 50px; object-fit: cover;">
+                        </td>
+                        <td>
+                            <a href="/admin/edit-product/{{this._id}}" class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <a href="/admin/delete-product/{{this._id}}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this product?')">
+                                <i class="fas fa-trash"></i> Delete
+                            </a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </section>
-<script>
-  $(function(){
-    $('#tabledata').DataTable();
-  });
 
+<script>
+  $(document).ready(function(){
+      $('#tabledata').DataTable({
+          responsive: true,
+          autoWidth: false,
+          lengthMenu: [[5, 10, 25, -1], [5, 10, 25, "All"]],
+          language: {
+              searchPlaceholder: "Search products..."
+          }
+      });
+  });
 </script>

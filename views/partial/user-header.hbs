@@ -1,8 +1,4 @@
-<head>
-    <!-- Bootstrap and Font Awesome -->
-
-</head>
-
+<script src="/javascripts/script.js"></script>
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-blue">
         <div class="container-fluid">
@@ -20,10 +16,9 @@
                     {{#if user}}
                     <li class="nav-item">
                         <a href="/view-cart" class="nav-link text-white position-relative me-3">
-                       
                             <i class="fas fa-shopping-cart fa-lg"></i>
                             <span class="position-absolute top-1 start-100 translate-middle badge rounded-pill bg-danger" id="cart-count">
-                               {{coun}}
+                                {{coun}}
                             </span>
                         </a>
                     </li>
@@ -36,86 +31,104 @@
                     {{/if}}
                 </ul>
 
-                <!-- User Account Dropdown -->
-               <!-- User Account Dropdown -->
-{{#if flag}}
-<div class="dropdown">
-    <button class="btn btn-seconday dropdown-toggle" type="button" id="dropdownMenuButton"
-        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <i class="fas fa-user-circle fa-lg"></i>
-    </button>
-    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-        <li><span class="dropdown-item-text fw-bold" id="username">Guest</span></li>
-        <li><hr class="dropdown-divider"></li>
-        {{#if user}}
-        <li><a class="dropdown-item" href="#" id="logoutOption">Logout</a></li>
-        {{else}}
-        <li><a class="dropdown-item" href="/login" id="loginOption">Login</a></li>
-        {{/if}}
-    </ul>
-</div>
-{{/if}}
+                <!-- Search Bar -->
+                <form class="d-flex justify-content-center my-2 my-lg-0" id="search-button">
+                    <input class="form-control mr-sm-2" style="width: 400px;" type="search" placeholder="Search" aria-label="Search" id="searchvalue">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick="handlesubmit(event)">Search Product Name</button>
+                </form>
 
+                <!-- User Account Dropdown -->
+                {{#if flag}}
+                <div class="dropdown">
+                    <button class="btn btn-seconday dropdown-toggle" type="button" id="dropdownMenuButton"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user-circle fa-lg"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                        <li><span class="dropdown-item-text fw-bold" id="username">Guest</span></li>
+                        <li><hr class="dropdown-divider"></li>
+                        {{#if user}}
+                        <li><a class="dropdown-item" href="#" id="logoutOption">Logout</a></li>
+                        {{else}}
+                        <li><a class="dropdown-item" href="/login" id="loginOption">Login</a></li>
+                        {{/if}}
+                    </ul>
+                </div>
+                {{/if}}
             </div>
         </div>
     </nav>
 </header>
-
 <style>
     /* Navbar Fixes */
-    nav {
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-        background-color: #007bff !important;
-        padding: 10px 0;
-        width: 100%; !important
-    }
+   /* Navbar Fixes */
+nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: #007bff !important;
+    padding: 10px 0;
+    width: 100%;
+}
 
-    /* Dropdown Button */
-    #dropdownMenuButton {
-        background-color: #007bff;
-        color: white;
-        border: none;
-        padding: 7px 10px;
-        border-radius: 5px;
-        margin-top: 5px;
-    }
+/* Dropdown Button */
+#dropdownMenuButton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 7px 10px;
+    border-radius: 5px;
+    margin-top: 5px;
+}
 
-    /* Hover effect */
-    #dropdownMenuButton:hover {
-        background-color: #0056b3;
-    }
+/* Hover effect */
+#dropdownMenuButton:hover {
+    background-color: #0056b3;
+}
 
-    /* Dropdown Styling */
-    .dropdown-menu {
-        background-color: #ffffff;
-        border-radius: 8px;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        min-width: 180px;
-        right: 0;
-        left: auto;
-        margin-top: 5px;
-    }
+/* Dropdown Styling */
+.dropdown-menu {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    min-width: 180px;
+    right: 0;
+    left: auto;
+    margin-top: 5px;
+}
 
-    /* Dropdown Items */
-    .dropdown-menu .dropdown-item {
-        color: #333;
-        padding: 10px 15px;
-        font-size: 16px;
-        transition: background 0.3s ease-in-out;
-    }
+/* Dropdown Items */
+.dropdown-menu .dropdown-item {
+    color: #333;
+    padding: 10px 15px;
+    font-size: 16px;
+    transition: background 0.3s ease-in-out;
+}
 
-    /* Hover effect */
-    .dropdown-menu .dropdown-item:hover {
-        background-color: #007bff;
-        color: white;
-    }
+/* Hover effect */
+.dropdown-menu .dropdown-item:hover {
+    background-color: #007bff;
+    color: white;
+}
 
-    /* Style the user icon */
-    .fa-user-circle {
-        margin-right: 8px;
-    }
+/* Style the user icon */
+.fa-user-circle {
+    margin-right: 8px;
+}
+
+/* Search Bar Styling */
+#search-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 600px; /* Adjust as needed */
+    margin: 0 auto; /* Center the search bar */
+}
+
+.form-inline {
+    width: 100%;
+}
 </style>
 
 <script>
@@ -144,6 +157,7 @@
             logoutButton.addEventListener("click", logoutUser);
         }
     });
+  
 </script>
 
 

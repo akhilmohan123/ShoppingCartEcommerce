@@ -1,5 +1,99 @@
 
     <style>
+        #search-content {
+    display: none;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+#search-content h3 {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #212121;
+    margin-bottom: 20px;
+}
+
+#search-content .product-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 20px;
+}
+
+#search-content .product-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+#search-content .product-card .card-img-top {
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+#search-content .product-card .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+#search-content .product-card .card-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #212121;
+    margin-bottom: 10px;
+}
+
+#search-content .product-card .card-text {
+    color: #878787;
+    font-size: 0.875rem;
+    margin-bottom: 10px;
+}
+
+#search-content .product-card .price {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #ff5722;
+    margin-bottom: 10px;
+}
+
+#search-content .product-card .btn-primary {
+    background-color: #ff9f00;
+    border-color: #ff9f00;
+    color: #fff;
+    font-weight: 500;
+    text-align: center;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+#search-content .product-card .btn-primary:hover {
+    background-color: #fb641b;
+    border-color: #fb641b;
+}
+
+#search-content .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+#search-content .col {
+    flex: 1;
+    min-width: 220px;
+    max-width: 300px;
+}
+
         .body {
             background-color: #f1f3f6;
             font-family: 'Roboto', sans-serif;
@@ -42,8 +136,13 @@
             padding: 1rem;
         }
         .card-body {
-            padding: 1rem;
-        }
+    min-height: 220px; /* Adjust based on your content */
+    max-height: 220px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
         .card-title {
             font-size: 1rem;
             font-weight: 500;
@@ -103,6 +202,9 @@
     height: 500px; /* Adjust as needed */
     object-fit: cover;
 }
+   #search-content{
+        display: none;
+    }
 
 
     </style>
@@ -135,7 +237,7 @@
     </div>
 </nav> --}}
 <section>
-    <div class="body">
+    <div class="body" id="product-div">
   <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
         <div class="carousel-item active">
@@ -153,7 +255,7 @@
     </button>
 </div>
 
-  <div id="products" class="container mt-4">
+     <div id="products" class="container mt-4">
     <h3 class="text-center mb-4">Our Featured Products</h3>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
         {{#each data}}
@@ -165,7 +267,7 @@
                     <p class="card-text">{{this.Description}}</p>
                     <p class="card-text"><small>{{this.Category}}</small></p>
                     <p class="price">₹{{this.Price}}</p>
-                    <button onclick="addtocart('{{this._id}}')" class="btn btn-primary w-100">Add to cart</button>
+                    <button onclick="addtocart('{{this._id}}')" class="btn btn-primary w-100">View Product</button>
                 </div>
             </div>
         </div>
@@ -173,6 +275,12 @@
     </div>
 </div>
 </div>
+    <div id="search-content" class="body">
+         
+        </div>
+    </div>
+</div>
+    </div>
 </section>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>

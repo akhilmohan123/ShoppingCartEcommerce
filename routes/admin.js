@@ -50,7 +50,7 @@ router.get("/",verifyAdmin, async (req, res, next) => {
 
 // GET add product page
 router.get("/add-product",verifyAdmin, (req, res) => {
-  res.render("admin/add-product");
+  res.render("admin/add-product",{admin:true});
 });
 
 // POST add product

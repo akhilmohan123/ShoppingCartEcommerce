@@ -404,5 +404,21 @@ router.post("/facedetect", async (req, res) => {
   }
 });
 
+router.get("/get-product-search/:value",async(req,res)=>{
+  console.log("Api called")
+  var value=req.params.value
+  await userhelper.searchContent(value).then((data)=>{
+    if(data.length>0){
+      return res.status(200).json({status:true,data:data})
+    }else{
+      res.status(401).json({status:false})
+    }
+  }).catch((err)=>{
+    if(err){
+      res.status(400).json({status:false})
+    }
+  })
+})
+
 
 module.exports = router;

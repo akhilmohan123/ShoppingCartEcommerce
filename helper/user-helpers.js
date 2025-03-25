@@ -462,7 +462,26 @@ module.exports = {
   });
     
     });
-  }
+  },
+  searchContent: (value) => {
+    console.log(value);
+    return new Promise(async (resolve, reject) => {
+        console.log("search reached");
+        try {
+            // Ensure that `find()` returns a promise, and await the result
+            const result = await db.get().collection('products').find({
+                $text: { $search: value }
+            }).toArray();
+            
+            console.log(result); // Display the result
+            resolve(result); // Resolve the promise with the result
+        } catch (error) {
+            console.log(error);
+            reject(error); // Reject the promise if an error occurs
+        }
+    });
+}
+
   
    
  

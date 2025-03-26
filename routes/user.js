@@ -420,5 +420,10 @@ router.get("/get-product-search/:value",async(req,res)=>{
   })
 })
 
+router.post("/verify-otp",(req,res)=>{
+  console.log("verify otp is called")
+  
+})
+
 
 module.exports = router;

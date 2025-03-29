@@ -39,7 +39,6 @@
 </style>
 <script>
 function handleclick(id){
-
          $.ajax({
             url: `/cart/${id}`,
             method: 'GET',  // Capitalize 'POST' (though lowercase 'post' still works) // Ensures proper JSON formatting
@@ -51,8 +50,4 @@ function handleclick(id){
             }
         });
         }
-
-
-
-
 </script>

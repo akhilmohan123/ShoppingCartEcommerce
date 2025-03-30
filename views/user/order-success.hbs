@@ -1,67 +1,178 @@
+<style>
+    /* Modern gradient background with smooth transition */
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        animation: gradientShift 8s ease infinite alternate;
+        background-size: 200% 200%;
+    }
 
-    <style>
-        /* Background color transition */
-        body {
-            background: linear-gradient(120deg, #ff9a9e, #fad0c4);
-            animation: bgTransition 3s ease-in-out infinite alternate;
+    @keyframes gradientShift {
+        0% {
+            background-position: 0% 50%;
         }
-
-        @keyframes bgTransition {
-            0% {
-                background: linear-gradient(120deg, #0c0c0c, #171616);
-            }
-            100% {
-                background: linear-gradient(120deg, #a1c4fd, #c2e9fb);
-            }
+        50% {
+            background-position: 100% 50%;
         }
-
-        /* Text fade-in effect */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        100% {
+            background-position: 0% 50%;
         }
+    }
 
-        .fade-in {
-            animation: fadeIn 1s ease-in-out;
+    /* Card styling with glass morphism effect */
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .confirmation-card {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 3rem 4rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        text-align: center;
+        max-width: 600px;
+        width: 90%;
+    }
+
+    /* Enhanced text styling */
+    h1 {
+        color: white;
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        font-weight: 700;
+    }
+
+    /* Improved button design */
+    .btn-primary {
+        background: white;
+        color: #667eea;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 1rem;
+    }
+
+    .btn-primary:hover {
+        background: #f8f9fa;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Checkmark animation */
+    .checkmark {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 30px;
+        position: relative;
+    }
+
+    .checkmark-circle {
+        stroke-dasharray: 166;
+        stroke-dashoffset: 166;
+        stroke-width: 4;
+        stroke-miterlimit: 10;
+        stroke: white;
+        fill: none;
+        animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+    }
+
+    .checkmark-check {
+        transform-origin: 50% 50%;
+        stroke-dasharray: 48;
+        stroke-dashoffset: 48;
+        animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+    }
+
+    @keyframes stroke {
+        100% {
+            stroke-dashoffset: 0;
         }
+    }
 
-        /* Button color transition */
-        .btn-primary {
-            transition: background-color 0.5s ease, transform 0.3s ease;
+    /* Text fade-in effect */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
         }
-
-        .btn-primary:hover {
-            background-color: #000000;
-            transform: scale(1.1);
+        to {
+            opacity: 1;
+            transform: translateY(0);
         }
-    </style>
+    }
 
-<body onload="playSound()">
+    .fade-in {
+        animation: fadeIn 1s ease-out forwards;
+    }
+</style>
 
 <section>
     <div class="row">
         <div class="container">
-            <div class="col-md-12 text-center fade-in">
-                <h1 class="text-center text-white">Order Placed Successfully</h1>
-                <a href="/order" class="btn btn-primary">View Orders</a>
+            <div class="confirmation-card fade-in">
+                <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                    <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+                    <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                </svg>
+                <h1>Order Placed Successfully!</h1>
+                <a href="/order" class="btn btn-primary">View Your Orders</a>
             </div>
         </div>
     </div>
 </section>
 
-<audio id="successSound">
-    <source src="https://www.fesliyanstudios.com/play-mp3/4385" type="audio/mp3">
-</audio>
+<audio id="successSound" src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3" preload="auto"></audio>
 
 <script>
     function playSound() {
+        // Play success sound
         document.getElementById("successSound").play();
+        
+        // Add subtle confetti effect
+        const colors = ['#ff9a9e', '#fad0c4', '#a1c4fd', '#c2e9fb', '#84fab0'];
+        const card = document.querySelector('.confirmation-card');
+        
+        for (let i = 0; i < 30; i++) {
+            setTimeout(() => {
+                const dot = document.createElement('div');
+                dot.style.position = 'absolute';
+                dot.style.width = '8px';
+                dot.style.height = '8px';
+                dot.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                dot.style.borderRadius = '50%';
+                dot.style.left = Math.random() * 100 + '%';
+                dot.style.top = Math.random() * 100 + '%';
+                dot.style.opacity = '0';
+                dot.style.transition = 'all 1s ease-out';
+                dot.style.transform = 'scale(0)';
+                card.appendChild(dot);
+                
+                setTimeout(() => {
+                    dot.style.opacity = '0.8';
+                    dot.style.transform = 'scale(1) translateY(-50px)';
+                }, 10);
+                
+                setTimeout(() => {
+                    dot.style.opacity = '0';
+                    dot.style.transform = 'scale(0.5) translateY(-100px)';
+                    setTimeout(() => dot.remove(), 1000);
+                }, 1000);
+            }, i * 100);
+        }
     }
 </script>
-

@@ -340,11 +340,17 @@ module.exports = {
   productlist: (userId) => {
     console.log(userId);
     return new Promise(async (resolve, reject) => {
-      let cart = await db
+      try{
+        let cart = await db
         .get()
         .collection("cart")
         .findOne({ user: new objectId(userId) });
       resolve(cart.products);
+      }catch(err)
+      {
+        resolve([])
+      }
+      
     });
   },
   vieworders: (userid) => {

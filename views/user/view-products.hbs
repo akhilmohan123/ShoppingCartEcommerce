@@ -135,14 +135,14 @@
             object-fit: contain;
             padding: 1rem;
         }
-        .card-body {
-    min-height: 220px; /* Adjust based on your content */
-    max-height: 220px;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-}
+    .card-body {
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+    }
+
         .card-title {
             font-size: 1rem;
             font-weight: 500;
@@ -170,95 +170,96 @@
             border-color: #fb641b;
         }
 .product-card {
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-    min-height: 250px; !important
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
 
 .product-card:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
     transform: scale(1.03);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
-
 .card-img-top {
-    height: 200px;
-    object-fit: contain;
-    padding: 1rem;
-    width: 100%;
     transition: transform 0.3s ease;
 }
-
 .card-img-top:hover {
     transform: scale(1.1);
 }
-
-.card-body {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.card-title {
-    font-size: 1rem;
-    font-weight: 500;
-    color: #212121;
-    margin-bottom: 0.5rem;
-}
-
-.card-text {
-    color: #878787;
-    font-size: 0.875rem;
-}
-
-.price {
-    font-size: 1.125rem;
-    font-weight: 500;
-    color: #212121;
-}
-
 .btn-primary {
     background-color: #ff5722;
     border-color: #ff5722;
-    font-weight: 500;
 }
-
 .btn-primary:hover {
     background-color: #e64a19;
 }
-
 #heroCarousel img {
-    height: 450px;
+    height: 500px; /* Adjust as needed */
     object-fit: cover;
 }
    #search-content{
         display: none;
     }
+.card-content {
+        flex-grow: 1;
+    }
+    .card-actions {
+        margin-top: auto;
+        padding-top: 10px;
+    }
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+    }
 
-.carousel-control-prev, .carousel-control-next {
-    filter: invert(100%);
-}
-.card {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-.card-body {
-    flex-grow: 1;
-}
-</style>
+    .col {
+        display: flex;
+    }
 
-<section>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-    <div class="container-fluid d-flex justify-content-between">
+    /* Adjust button styles */
+    .btn-primary {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    /* Make sure images are consistent */
+    .card-img-top {
+        height: 200px;
+        object-fit: contain;
+        padding: 1rem;
+    }
+
+    /* Text overflow handling */
+    .card-title, .card-text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .card-text.description {
+        white-space: normal;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    </style>
+
+    <!--nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Ecommerce</a>
+            <form class="d-flex search-bar">
+                <input class="form-control me-2" type="search" placeholder="Search for products, brands and more" aria-label="Search">
+                <button class="btn btn-outline-light" type="submit"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+    </nav-->
+    {{!-- <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
         <a class="navbar-brand" href="#">Ecommerce</a>
         <form class="d-flex search-bar">
-            <input class="form-control me-2" type="search" placeholder="Search for products, brands and more">
+            <input class="form-control me-2" type="search" placeholder="Search for products, brands and more" aria-label="Search">
             <button class="btn btn-outline-light" type="submit"><i class="fas fa-search"></i></button>
         </form>
         <div class="d-flex align-items-center">
@@ -271,8 +272,7 @@
             </a>
         </div>
     </div>
-</nav>
-
+</nav> --}}
 <section>
     <div class="body" id="product-div">
   <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -296,18 +296,22 @@
     <h3 class="text-center mb-4">Our Featured Products</h3>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
         {{#each data}}
-        <div class="col">
-            <div class="card product-card" onclick="handleOnclick('{{this._id}}')">
-                <img class="card-img-top" src="/product-images/{{this._id}}.jpg" alt="{{this.Name}}">
-                <div class="card-body">
-                    <h5 class="card-title">{{this.Name}}</h5>
-                    <p class="card-text">{{this.Description}}</p>
-                    <p class="card-text"><small>{{this.Category}}</small></p>
-                    <p class="price">₹{{this.Price}}</p>
-                    <button onclick="addtocart('{{this._id}}')" class="btn btn-primary w-100">View Product</button>
-                </div>
+       <div class="col">
+    <div class="card product-card" onclick="handleOnclick('{{this._id}}')">
+        <img class="card-img-top" src="/product-images/{{this._id}}.jpg" alt="{{this.Name}}">
+        <div class="card-body">
+            <div class="card-content">
+                <h5 class="card-title">{{this.Name}}</h5>
+                <p class="card-text description">{{this.Description}}</p>
+                <p class="card-text"><small>{{this.Category}}</small></p>
+                <p class="price">₹{{this.Price}}</p>
+            </div>
+            <div class="card-actions">
+                <button onclick="event.stopPropagation(); handleOnclick('{{this._id}}')" class="btn btn-primary">View Product</button>
             </div>
         </div>
+    </div>
+</div>
         {{/each}}
     </div>
 </div>
@@ -319,19 +323,20 @@
 </div>
     </div>
 </section>
-
-<script>
-    function handleOnclick(id) {
-    $.ajax({
-        url: `/product-individual/${id}`,
-        method: 'GET',
-        success: function(response) {
-            window.location.href = `/product-individual/${id}`;
-        },
-        error: function(xhr, status, error) {
-            console.error("Error:", error);
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function handleOnclick(id){
+         $.ajax({
+            url: `/product-individual/${id}`,
+            method: 'GET',  // Capitalize 'POST' (though lowercase 'post' still works)
+            contentType: "application/json", // Ensures proper JSON formatting
+            success: function(response) {
+                window.location.href = `/product-individual/${id}`;
+            },
+            error: function(xhr, status, error) {
+                console.error("Error:", error);
+            }
+        });
         }
-    });
-}
+    </script>
 
-</script>

@@ -1,23 +1,57 @@
 <section>
-    <div class="conatainer mt-4 ml-3">
-        <div class="row">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
             <div class="col-md-6">
-                <h2 class="text-center">Edit Products</h2>
-                <form action="/admin/edit-product/{{product._id}}" enctype="multipart/form-data"method="post">
-                <label for="text">Name</label>
-                <input type="text" name="Name" class="form-control" value="{{product.Name}}">
-                <label for="">Category</label>
-                <input type="text" name="Category" class="form-control"value="{{product.Category}}">
-                <label for="">Price</label>
-                <input type="text" name="Price" class="form-control"value="{{product.Price}}">
-                <label for="">Description</label>
-                <input type="text" name="Description" class="form-control"value="{{product.Description}}">
-                <label for="">Image</label>
-                <img src="/product-images/{{product._id}}.jpg" style="width:100px;height:auto"></img>
-                <input type="file"class="form-control" name="Image">
-                <button type="submit" class="btn btn-success mt-4">Submit</button>
-                </form>
+                <div class="card shadow p-4">
+                    <h2 class="text-center mb-4">Edit Product</h2>
+                    <form action="/admin/edit-product/{{product._id}}" enctype="multipart/form-data" method="post">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" name="Name" class="form-control" value="{{product.Name}}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Category</label>
+                            <input type="text" name="Category" class="form-control" value="{{product.Category}}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Price</label>
+                            <input type="text" name="Price" class="form-control" value="{{product.Price}}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea name="Description" class="form-control" rows="3" required>{{product.Description}}</textarea>
+                        </div>
+                        <div class="mb-3 text-center">
+                            <label for="image" class="form-label d-block">Current Image</label>
+                            <img src="/product-images/{{product._id}}.jpg" class="img-thumbnail" style="max-width: 120px;">
+                        </div>
+                        <div class="mb-3">
+                            <label for="image" class="form-label">Upload New Image</label>
+                            <input type="file" class="form-control" name="Image">
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Submit</button>
+                    </form>
+                </div>
             </div>
         </div>
-        </div>
+    </div>
 </section>
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+    .card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .form-control {
+        border-radius: 5px;
+    }
+    .img-thumbnail {
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        padding: 5px;
+    }
+</style>

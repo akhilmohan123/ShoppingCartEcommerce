@@ -24,21 +24,51 @@
     <title>Shopping Cart</title>
     <style>
         
-        html, body {
-            height: 100%;
-            margin: 0;
-        }
-        body {
-            display: flex;
-            flex-direction: column;
-        }
-        .content {
-            flex: 1 0 auto;
-        }
-        .footer {
-            flex-shrink: 0;
-            background-color: rgba(0, 0, 0, 0.05);
-        }
+       html, body {
+    height: 100%;
+    margin: 0;
+}
+body {
+    display: flex;
+    flex-direction: column;
+}
+.content {
+    flex: 1;
+}
+.footer {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.05);
+}
+#spinner{
+    display: none;
+    height: 50px;
+    width: 50px;
+    position: fixed;
+    border: 2px solid #f3f3f3;
+    transform: translate((-50%,-50%));
+    top: 50%;
+    left: 50%;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+.spinner-overlay{
+    position: fixed;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+ @keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
     </style>
 </head>
 
@@ -51,6 +81,7 @@
     
     <div class="content">
         {{{body}}}
+        <div id="spinner"></div>
     </div>
     
     <footer class="footer bg-body-tertiary text-center">

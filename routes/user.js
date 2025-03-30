@@ -8,10 +8,12 @@ const path = require('path');
 const fs = require("fs");
 const { Image } = require("canvas"); // Correct import
 const faceApiHelper = require("../helper/face-api-helper");
-
+const { addOtp, verifyOtp } = require("../helper/Otp");
+var db=require("../config/connection")
 // Middleware to check if user is logged in
 const verifyLogged = (req, res, next) => {
   if (req.session && req.session.user && req.session.user.Loggedin) {
+    req.session.loginpage=true
     next();
   } else {
     console.log("User not logged in");
@@ -26,7 +28,8 @@ const verifyLogged = (req, res, next) => {
 router.get("/", async (req, res, next) => {
   try {
 
-
+    req.session.loginpage=true
+    const loginpage=true
     console.log("path / get called");
     let user = req.session.user;
 
@@ -50,7 +53,7 @@ router.get("/", async (req, res, next) => {
         }
       })
     const flag=true
-    res.render("user/view-products", { data, user, coun,flag})
+    res.render("user/view-products", { data, user, coun,flag,loginpage})
   } catch (err) {
     console.log("error from the path")
     next(err); // Pass errors to the error handler
@@ -62,11 +65,13 @@ router.get("/", async (req, res, next) => {
 router.get("/login", (req, res) => {
   const errorMessage = req.session.userLoginerr; // Get error from session
   req.session.userLoginerr = null; // Clear it after fetching
+  req.session.loginpage=false
   res.render("user/login", { Loginerr: errorMessage });
 });
 
 // GET signup page
 router.get("/signup", (req, res) => {
+  req.session.loginpage=false
   res.render("user/signup");
 });
 
@@ -100,7 +105,7 @@ router.post("/login", async (req, res, next) => {
     
       req.session.userLoginerr = "Invalid username or password";
       console.log(req.session.userLoginerr)
-      res.redirect("/login",);
+      res.redirect("/login");
     }
   } catch (err) {
     next(err); // Pass errors to the error handler
@@ -401,6 +406,85 @@ router.post("/facedetect", async (req, res) => {
   } catch (error) {
     console.error("Error in /facedetect:", error);
     return res.status(500).json({ error: error});
+  }
+});
+
+router.get("/get-product-search/:value",verifyLogged,async(req,res)=>{
+  console.log("Api called")
+  var value=req.params.value
+  await userhelper.searchContent(value).then((data)=>{
+    if(data.length>0){
+      return res.status(200).json({status:true,data:data})
+    }else{
+      res.status(401).json({status:false})
+    }
+  }).catch((err)=>{
+    if(err){
+      res.status(400).json({status:false})
+    }
+  })
+})
+
+router.post("/get-otp", async (req, res, next) => {
+  console.log("Verify OTP is called");
+  try {
+    const result = await addOtp(req.body.email);
+    if (result) {
+      return res.status(200).json({ status: true });
+    } else {
+      return res.status(400).json({ status: false, message: "OTP generation failed" });
+    }
+  } catch (err) {
+    console.error("Error generating OTP:", err);
+    return res.status(500).json({ status: false, message: "Internal server error" });
+  }
+});
+router.post("/verify-otp", async (req, res) => {
+  try {
+    const { otp } = req.body;
+    
+    const email = await verifyOtp(otp);
+    
+    if (!email) {
+      return res.status(400).json({ 
+        status: false,
+        message: "Invalid OTP" 
+      });
+    }
+
+    // Find user by email
+    const user = await db.get().collection('user').findOne({
+      Email: email
+    });
+
+    if (!user) {
+      return res.status(404).json({ 
+        status: false,
+        message: "User not found" 
+      });
+    }
+
+    // Set session
+    req.session.user = {
+      ...user,
+      Loggedin: true
+    };
+    
+    // Clear any login errors
+    req.session.userLoginerr = null;
+    
+    // Return success response
+    return res.status(200).json({ 
+      status: true,
+      redirect: "/"  // This tells the client where to redirect
+    });
+
+  } catch (error) {
+    console.error("Error in verify-otp route:", error);
+    return res.status(500).json({ 
+      status: false,
+      message: "Internal server error" 
+    });
   }
 });
 

@@ -22,3 +22,5 @@ FaceAPI.js (AI/ML face detection)
 Razorpay (Payments)
 
 Nodemailer (Transactional emails)
+
+Live Link : https://shopping-cart-gray-nu.vercel.app/
